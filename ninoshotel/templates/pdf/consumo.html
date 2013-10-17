@@ -1,0 +1,101 @@
+<html>
+<head>
+  <style>
+    @page {
+      size: A6 portrait;
+      margin: 5pt;
+      @frame header_frame {
+        -pdf-frame-content: header_content;
+        top: 95pt;
+        left: 60pt;
+        right: 10pt;
+      }
+      @frame content_frame {
+        -pdf-frame-content: body_content;
+        top: 110pt;
+        left: 10pt;
+        right: 25pt;
+      }
+      @frame total_frame {
+        -pdf-frame-content: total;
+        top: 302pt;
+        left: 245pt;
+        right: 25pt;
+      }
+      @frame fecha_frame {
+        -pdf-frame-content: fecha;
+        top: 334pt;
+        left: 205pt;
+        right: 25pt;
+      }
+    }
+
+    img {zoom 80%}
+
+    .align-center {
+      text-align: center;
+    }
+
+    .align-right {
+      text-align: right;
+    }
+
+    .smallcell {
+      width: 55pt;
+    }
+
+    .nomargin {
+      padding: 0;
+      margin:  0;
+    }
+
+    body {
+      font-size: 9pt;
+    }
+
+    .invisible {
+      visibility: hidden;
+      color: #FFF;
+    }
+  </style>
+</head>
+<body>
+  <!-- Content for Static Frame 'header' -->
+  <div id="header_content">
+    <p class="nomargin">{{ consumo.pedido.para }} en habitación {{ consumo.pedido.para.hospedado_en }}</p>
+  </div>
+  <div id="body_content">    
+    <table cellpadding="5">
+        <thead class="hidden">
+          <th class="invisible smallcell">CANT.</th>
+          <th class="invisible ">DETALLE DE ALIMENTOS</th>
+          <th class="invisible smallcell">UNIT.</th>
+          <th class="invisible smallcell">SUBTOTAL</th>
+        </thead>
+        <tbody>
+        {% for detalle in consumo.consumodetalle_set.all %}
+        <tr>
+          <td class="smallcell">{{ detalle.cantidad }}</td>
+          <td>{{ detalle.plato.nombre }}</td>
+          <td>{{ detalle.unitario }}</td>
+          <td class="align-right smallcell">{{ detalle.subtotal }}</td>
+        </tr>
+        {% endfor %} 
+      </tbody>
+    </table>
+
+  </div>
+  <div id="total">
+    <p class="nomargin">{{ consumo.total }}</p>
+  </div>
+  <div id="fecha">
+    <p class="nomargin">
+      {{ consumo.fecha|date:"d"}}&nbsp;&nbsp;&nbsp;&nbsp;
+      {{ consumo.fecha|date:"m"}}&nbsp;&nbsp;&nbsp;&nbsp;
+      {{ consumo.fecha|date:"Y"}}
+    </p>
+  </div>
+
+
+</body>
+</html>
