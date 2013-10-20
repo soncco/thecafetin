@@ -25,6 +25,7 @@ urlpatterns = patterns('core.views',
 
   # Varios.
   url(r'^blog/$', 'blog', name = 'blog'),
+  url(r'^carta/$', 'carta', name = 'carta'),
 
   # JSON.
   url(r'^json/cliente/(?P<q>.*)/$', 'json_clientes_local', name = 'json_clientes_local'),

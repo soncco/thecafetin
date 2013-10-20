@@ -8,7 +8,7 @@ from django.contrib.auth.decorators import login_required, user_passes_test
 from django.http import HttpResponseRedirect
 from django.core.urlresolvers import reverse
 
-from ..models import Local, Bitacora
+from ..models import Local, Bitacora, Plato, Punto
 from django.contrib.auth.models import User
 
 import datetime
@@ -28,6 +28,18 @@ def blog(request):
   posts = Bitacora.objects.filter(hecho_por = request.user).order_by('-cuando')
   context = {'posts': posts}
   return render_to_response('blog.html', context, context_instance = RequestContext(request))
+
+@login_required()
+def carta(request):
+  local = request.session['local']
+  puntos = Punto.objects.filter(pertenece_a = local)
+  platos = Plato.objects.filter(de_venta_en__in = puntos)
+
+  for plato in platos:
+    plato.theprecio = plato.precioplato_set.get(anio = 2013).precio
+
+  context = {'platos': platos}
+  return render_to_response('carta.html', context, context_instance = RequestContext(request))
 
 def the_login(request):
   if(request.user.is_authenticated()):

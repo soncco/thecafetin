@@ -2,6 +2,7 @@
 {% ifusergroup Mozos %}
 <li><a href="{% url 'pedido' %}">Pedido</a></li>
 <li><a href="{% url 'pedido_lista_mozo' %}">Estado de pedidos</a></li>
+<li><a href="{% url 'carta' %}">Carta</a></li>
 <!--li><a href="{% url 'pedido_lista_completo_mozo' %}">Todos los pedidos</a></li-->
 {% endifusergroup %}
 {% ifusergroup Cocineros %}
@@ -11,17 +12,26 @@
 <li><a href="{% url 'pedido_lista_recepcion' %}">Manejar pedidos</a></li>
 {% endifusergroup %}
 {% ifusergroup Administradores %}
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown">Reportes <b class="caret"></b></a>
+  <ul class="dropdown-menu">
+    <li><a href="#">Pedidos por fecha</a></li>
+    <li><a href="#">Pedidos por habitación</a></li>
+    <li><a href="#">Pedidos por mozo</a></li>
+  </ul>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown">Documentos <b class="caret"></b></a>
+  <ul class="dropdown-menu">
+    <li><a href="#">Comandas</a></li>
+    <li><a href="#">Detalles de consumo</a></li>
+    <li><a href="#">Boletas</a></li>
+    <li><a href="#">Facturas</a></li>
+  </ul>
+</li>
 <li><a href="/admin">Administración</a></li>
 {% endifusergroup %}
 {% if user.is_authenticated %}
 <li><a href="{% url 'blog' %}">Bitácora</a></li>
-<!--li class="dropdown">
-  <a href="#" class="dropdown-toggle" data-toggle="dropdown">Reportes <b class="caret"></b></a>
-  <ul class="dropdown-menu">
-    {% ifusergroup Mozos %}
-    <li><a href="#">Pedidos por fecha</a></li>
-    {% endifusergroup %}
-  </ul>
-</li-->
 <li><a href="{% url 'the_logout' %}">Salir</a></li>
 {% endif %}

@@ -3,7 +3,7 @@
 <h1>Bitácora</h1>
 <form action="{% url 'blog' %}" role="form" method="post">
   <div class="form-group">
-    <textarea name="mensaje" id="mensaje" cols="30" rows="3" class="form-control" placeholder="Escribe tu mensaje"></textarea>
+    <textarea name="mensaje" id="mensaje" cols="30" rows="3" class="form-control" placeholder="Escribe tu mensaje" required></textarea>
   </div>
   {% csrf_token %}
   <button class="btn btn-block btn-primary btn-lg post" type="submit">Publicar</button>

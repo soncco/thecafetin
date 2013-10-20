@@ -94,6 +94,12 @@ var cafetin = cafetin || {};
   }
 
   pedido = function() {
+    $nope = $('#nope');
+    if(!$nope.is(':checked') && $('.cliente-nombre').data('id') == '') {
+      alert('Escoge un cliente');
+      $('#cliente').focus();
+      return;
+    }
     cantidades = cafetin.theDetalles.pluck('cantidad');
     platos = cafetin.theDetalles.pluck('platoId');
     var pedido = {
