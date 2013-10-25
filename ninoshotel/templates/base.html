@@ -54,9 +54,12 @@
     <script src="/media/js/vendor/jquery.min.js"></script>
     <script src="/media/js/vendor/jquery.ui.min.js"></script>
     <script src="/media/bootstrap/js/bootstrap.min.js"></script>
-    <script src="http://localhost:3000/socket.io/socket.io.js"></script>
+    <script src="/media/js/actions/vars.js"></script>
     <script>
-      io = io.connect('localhost', {'port': 3000});
+      document.write('<sc'+'ript src="' + cafetin.ip + ':3000/socket.io/socket.io.js"></scri'+'pt>');
+    </script>    
+    <script>
+      io = io.connect(cafetin.ip, {'port': 3000});
       io.emit('room', {'room': '{{ request.session.local }}'});
     </script>
     {% block js %}{% endblock %}

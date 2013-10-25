@@ -47,8 +47,8 @@
       <td>
         {% ifequal pedido.estado 'R' %}
         <button class="btn btn-sm btn-danger delete" data-id="{{ pedido.id }}"><i class="icon icon-remove"></i></button>
-        <button class="btn btn-sm btn-info print" data-id="{{ pedido.id }}" data-comanda="{{ pedido.comanda }}" 
-        data-consumo="{{ pedido.consumo }}" 
+        <button class="btn btn-sm btn-info print" data-id="{{ pedido.id }}" data-comanda="{{ pedido.tiene_comanda }}" 
+        data-consumo="{{ pedido.tiene_consumo }}" 
         {% if pedido.visitante%}
         data-foraneo="true"
         {% else %}
@@ -57,8 +57,8 @@
          style="display: none;"><i class="icon icon-print"></i></button>
         {% endifequal %}
         {% ifequal pedido.estado 'A' %}
-        <button class="btn btn-sm btn-info print" data-id="{{ pedido.id }}" data-comanda="{{ pedido.comanda }}" 
-        data-consumo="{{ pedido.consumo }}" 
+        <button class="btn btn-sm btn-info print" data-id="{{ pedido.id }}" data-comanda="{{ pedido.tiene_comanda }}" 
+        data-consumo="{{ pedido.tiene_consumo }}" 
         {% if pedido.visitante%}
         data-foraneo="true"
         {% else %}
@@ -67,8 +67,8 @@
         ><i class="icon icon-print"></i></button>
         {% endifequal %}
         {% ifequal pedido.estado 'I' %}
-        <button class="btn btn-sm btn-info print" data-id="{{ pedido.id }}" data-comanda="{{ pedido.comanda }}" 
-        data-consumo="{{ pedido.consumo }}" 
+        <button class="btn btn-sm btn-info print" data-id="{{ pedido.id }}" data-comanda="{{ pedido.tiene_comanda }}" 
+        data-consumo="{{ pedido.tiene_consumo }}" 
         {% if pedido.visitante%}
         data-foraneo="true"
         {% else %}
@@ -77,8 +77,8 @@
         ><i class="icon icon-print"></i></button>
         {% endifequal %}
         {% ifequal pedido.estado 'P' %}
-        <button class="btn btn-sm btn-info print" data-id="{{ pedido.id }}" data-comanda="{{ pedido.comanda }}" 
-        data-consumo="{{ pedido.consumo }}" 
+        <button class="btn btn-sm btn-info print" data-id="{{ pedido.id }}" data-comanda="{{ pedido.tiene_comanda }}" 
+        data-consumo="{{ pedido.tiene_consumo }}" 
         {% if pedido.visitante%}
         data-foraneo="true"
         {% else %}

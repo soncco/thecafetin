@@ -20,6 +20,16 @@ urlpatterns = patterns('core.views',
   url(r'^pedido/imprimir/boleta/(?P<id>.*)$', 'pedido_imprimir_boleta', name = 'pedido_imprimir_boleta'), 
   url(r'^pedido/imprimir/factura/(?P<id>.*)$', 'pedido_imprimir_factura', name = 'pedido_imprimir_factura'),
 
+  # Reportes
+  url(r'^reporte/pedido/fecha/$', 'reporte_pedido_fecha', name = 'reporte_pedido_fecha'), 
+  url(r'^reporte/pedido/habitacion/$', 'reporte_pedido_habitacion', name = 'reporte_pedido_habitacion'), 
+  url(r'^reporte/pedido/mozo/$', 'reporte_pedido_mozo', name = 'reporte_pedido_mozo'), 
+
+  url(r'^reporte/documento/comanda/$', 'reporte_documento_comanda', name = 'reporte_documento_comanda'),
+  url(r'^reporte/documento/detalle/$', 'reporte_documento_detalle', name = 'reporte_documento_detalle'),
+  url(r'^reporte/documento/boleta/$', 'reporte_documento_boleta', name = 'reporte_documento_boleta'), 
+  url(r'^reporte/documento/factura/$', 'reporte_documento_factura', name = 'reporte_documento_factura'), 
+
   #Completo
   url(r'^pedido/lista/completo/mozo/$', 'pedido_lista_completo_mozo', name = 'pedido_lista_completo_mozo'),
 

@@ -1,25 +1,22 @@
 var cafetin = cafetin || {};
-//cafetin.ip = 'http://198.58.111.119';
+
 cafetin.ip = 'http://localhost';
-//cafetin.server = cafetin.ip + ':8000';
-cafetin.socketserver = cafetin.ip + ':3000';
-//cafetin.media = cafetin.server + '/media/';
 
 cafetin.estados = {
   R: {
     'texto': 'Recibido',
-    'clase': 'pure-button-error'
+    'clase': 'btn-danger'
   },
   A: {
     'texto': 'Atendido',
-    'clase': 'pure-button-warning'
+    'clase': 'btn-warning'
   },
   I: {
     'texto': 'Impreso',
-    'clase': 'pure-button-secondary'
+    'clase': 'btn-info'
   },
   P: {
     'texto': 'Pagado',
-    'clase': 'pure-button-success'
+    'clase': 'btn-success'
   }
 };

@@ -15,18 +15,18 @@
 <li class="dropdown">
   <a href="#" class="dropdown-toggle" data-toggle="dropdown">Reportes <b class="caret"></b></a>
   <ul class="dropdown-menu">
-    <li><a href="#">Pedidos por fecha</a></li>
-    <li><a href="#">Pedidos por habitación</a></li>
-    <li><a href="#">Pedidos por mozo</a></li>
+    <li><a href="{% url 'reporte_pedido_fecha' %}">Pedidos por fecha</a></li>
+    <li><a href="{% url 'reporte_pedido_habitacion' %}">Pedidos por habitación</a></li>
+    <li><a href="{% url 'reporte_pedido_mozo' %}">Pedidos por mozo</a></li>
   </ul>
 </li>
 <li class="dropdown">
   <a href="#" class="dropdown-toggle" data-toggle="dropdown">Documentos <b class="caret"></b></a>
   <ul class="dropdown-menu">
-    <li><a href="#">Comandas</a></li>
-    <li><a href="#">Detalles de consumo</a></li>
-    <li><a href="#">Boletas</a></li>
-    <li><a href="#">Facturas</a></li>
+    <li><a href="{% url 'reporte_documento_comanda' %}">Comandas</a></li>
+    <li><a href="{% url 'reporte_documento_detalle' %}">Detalles de consumo</a></li>
+    <li><a href="{% url 'reporte_documento_boleta' %}">Boletas</a></li>
+    <li><a href="{% url 'reporte_documento_factura' %}">Facturas</a></li>
   </ul>
 </li>
 <li><a href="/admin">Administración</a></li>

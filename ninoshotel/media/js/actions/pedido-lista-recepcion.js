@@ -1,24 +1,5 @@
 var cafetin = cafetin || {};
 
-cafetin.estados = {
-  R: {
-    'texto': 'Recibido',
-    'clase': 'btn-danger'
-  },
-  A: {
-    'texto': 'Atendido',
-    'clase': 'btn-warning'
-  },
-  I: {
-    'texto': 'Impreso',
-    'clase': 'btn-info'
-  },
-  P: {
-    'texto': 'Pagado',
-    'clase': 'btn-success'
-  }
-};
-
 (function($) {
 
   $('.timeago').timeago();
@@ -122,8 +103,8 @@ cafetin.estados = {
     $td.clone().html($status.text(cafetin.estados[pedido.estado].texto).addClass(cafetin.estados[pedido.estado].clase)).appendTo($tr);
     $td.clone()
         .append($pay.data('id', pedido.id)
-          .data('boleta', pedido.comanda)
-          .data('factura', pedido.consumo)
+          .data('boleta', pedido.tiene_comanda)
+          .data('factura', pedido.tiene_consumo)
           .data('foraneo', (pedido.visitante != ''))
           )
         .append($pay.data('id', pedido.id))

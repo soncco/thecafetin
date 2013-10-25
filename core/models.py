@@ -130,7 +130,7 @@ class Comanda(models.Model):
   numero = models.IntegerField()
   fecha = models.DateField(auto_now_add = True)
   local = models.ForeignKey(Local)
-  pedido = models.ForeignKey(Pedido)
+  pedido = models.OneToOneField(Pedido)
   total = models.DecimalField(max_digits = 5, decimal_places = 2, default = Decimal('0.00'))
 
   def save(self):
@@ -150,7 +150,7 @@ class Consumo(models.Model):
   numero = models.IntegerField()
   fecha = models.DateField(auto_now_add = True)
   local = models.ForeignKey(Local)
-  pedido = models.ForeignKey(Pedido)
+  pedido = models.OneToOneField(Pedido)
   total = models.DecimalField(max_digits = 5, decimal_places = 2, default = Decimal('0.00'))
 
 class ConsumoDetalle(models.Model):
@@ -164,7 +164,7 @@ class Boleta(models.Model):
   numero = models.IntegerField()
   fecha = models.DateField(auto_now_add = True)
   local = models.ForeignKey(Local)
-  pedido = models.ForeignKey(Pedido)
+  pedido = models.OneToOneField(Pedido)
   total = models.DecimalField(max_digits = 5, decimal_places = 2, default = Decimal('0.00'))
 
 class BoletaDetalle(models.Model):
@@ -178,7 +178,7 @@ class Factura(models.Model):
   numero = models.IntegerField()
   fecha = models.DateField(auto_now_add = True)
   local = models.ForeignKey(Local)
-  pedido = models.ForeignKey(Pedido)
+  pedido = models.OneToOneField(Pedido)
   total = models.DecimalField(max_digits = 5, decimal_places = 2, default = Decimal('0.00'))
 
 class FacturaDetalle(models.Model):

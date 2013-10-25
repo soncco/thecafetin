@@ -1,12 +1,15 @@
 # -*- coding: utf-8 -*-
 
 from models import Comanda, ComandaDetalle, Consumo, ConsumoDetalle, Boleta, BoletaDetalle, Factura, FacturaDetalle
+from datetime import datetime
+
+from django.utils.encoding import smart_str, smart_unicode
 
 def pedido_json(pedido):
   cliente = pedido.para
   fecha = pedido.cuando
-  comanda = 'false'
-  consumo = 'false'
+  tiene_comanda = 'false'
+  tiene_consumo = 'false'
   visitor = ''
   try:
     visitor = pedido.visitante.nombres
@@ -20,9 +23,9 @@ def pedido_json(pedido):
     precio = float(detalle.plato.precioplato_set.get(anio = 2013).precio)
     sub = cantidad * precio
     if detalle.plato.tipo.recibo == 'D':
-      consumo = 'true'
+      tiene_consumo = 'true'
     if detalle.plato.tipo.recibo == 'C':
-      comanda = 'true'
+      tiene_comanda = 'true'
 
     detalles.append({
       'cantidad': cantidad,
@@ -31,7 +34,31 @@ def pedido_json(pedido):
       'sub': sub
     })
 
-  return {
+  # Documentos
+
+  docs = {}
+
+  try:
+    docs['comanda'] = pedido.comanda.numero
+  except:
+    docs['comanda'] = 0
+
+  try:
+    docs['consumo'] = pedido.consumo.numero
+  except:
+    docs['consumo'] = 0
+
+  try:
+    docs['boleta'] = pedido.boleta.numero
+  except:
+    docs['boleta'] = 0
+
+  try:
+    docs['factura'] = pedido.factura.numero
+  except:
+    docs['factura'] = 0
+
+  thepedido = {
     'id': pedido.id,
     'para': cliente.nombres + ' ' + cliente.apellidos,
     'estado': pedido.estado,
@@ -40,10 +67,15 @@ def pedido_json(pedido):
     'hecho_por': pedido.hecho_por.first_name,
     'fecha': str(pedido.cuando),
     'punto': pedido.punto.id,
-    'comanda': comanda,
-    'consumo': consumo,
-    'visitante': visitor
+    'tiene_comanda': tiene_comanda,
+    'tiene_consumo': tiene_consumo,
+    'visitante': smart_str(visitor),
+    'documentos': docs
   }
+
+  #print thepedido
+
+  return thepedido
 
 def total_pedido(pedido):
   total = 0
@@ -180,3 +212,7 @@ def crear_factura(request, pedido, number):
       subtotal = cantidad * unitario
       fd = FacturaDetalle(pertenece_a_factura = factura, plato = plato, cantidad = cantidad, unitario = unitario, subtotal = subtotal)
       fd.save()
+
+def strtotime(mystring):
+  format = '%Y-%m-%d'
+  return datetime.strptime(mystring, format)

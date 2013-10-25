@@ -1,24 +1,5 @@
 var cafetin = cafetin || {};
 
-cafetin.estados = {
-  R: {
-    'texto': 'Recibido',
-    'clase': 'btn-danger'
-  },
-  A: {
-    'texto': 'Atendido',
-    'clase': 'btn-warning'
-  },
-  I: {
-    'texto': 'Impreso',
-    'clase': 'btn-info'
-  },
-  P: {
-    'texto': 'Pagado',
-    'clase': 'btn-success'
-  }
-};
-
 (function($) {
 
   $('.timeago').timeago();
@@ -55,14 +36,15 @@ cafetin.estados = {
     comanda = $(this).data('comanda');
     consumo = $(this).data('consumo');
     foraneo = $(this).data('foraneo');
+    debugger;
 
     $('.comanda').data('id', id);
     $('.consumo').data('id', id);
 
     $('.comanda').show();
     $('.consumo').show();
-    if(!comanda) $('.comanda').hide();
-    if(!consumo) $('.consumo').hide();
+    if(comanda == 'false') $('.comanda').hide();
+    if(consumo == 'false') $('.consumo').hide();
     if(foraneo) {
       $('.comanda').show();
       $('.consumo').hide();
@@ -161,9 +143,9 @@ cafetin.estados = {
     debugger;
     $td.clone()
         .append($print.data('id', pedido.id)
-          .data('comanda', pedido.comanda)
-          .data('consumo', pedido.consumo)
-          .data('foraneo', (pedido.visitante == ''))
+          .data('comanda', pedido.tiene_comanda)
+          .data('consumo', pedido.tiene_consumo)
+          .data('foraneo', (pedido.visitante != ''))
           )
         .append($delete.data('id', pedido.id))
       .addClass('actions')

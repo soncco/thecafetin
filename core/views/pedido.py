@@ -38,8 +38,8 @@ def pedido_lista_mozo(request):
         comanda = 'true'
       if detalle.plato.tipo.recibo == 'D':
         consumo = 'true'
-    pedido.comanda = comanda
-    pedido.consumo = consumo
+    pedido.tiene_comanda = comanda
+    pedido.tiene_consumo = consumo
 
   context = {'pedidos': pedidos}
   return render_to_response('pedido-lista-mozo.html', context, context_instance = RequestContext(request))
@@ -129,6 +129,8 @@ def pedido_crear(request):
           detalle.save()
 
       pedidos.append(pedido_json(p))
+
+    #print list(pedidos)
 
     context = {'status': 'ok', 'pedidos': pedidos}
     return HttpResponse(json.dumps(context), content_type="application/json")

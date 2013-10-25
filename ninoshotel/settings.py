@@ -185,3 +185,10 @@ TEMPLATE_CONTEXT_PROCESSORS = (
 SUIT_CONFIG = {
     'ADMIN_NAME': 'Niños Hotel Cafetín: Administración',
 }
+
+CACHES = {
+    'default': {
+        'BACKEND': 'django.core.cache.backends.memcached.PyLibMCCache',
+        'LOCATION': '127.0.0.1:11211',
+    }
+}
