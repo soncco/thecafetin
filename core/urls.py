@@ -26,7 +26,7 @@ urlpatterns = patterns('core.views',
   url(r'^reporte/pedido/mozo/$', 'reporte_pedido_mozo', name = 'reporte_pedido_mozo'), 
 
   url(r'^reporte/documento/comanda/$', 'reporte_documento_comanda', name = 'reporte_documento_comanda'),
-  url(r'^reporte/documento/detalle/$', 'reporte_documento_detalle', name = 'reporte_documento_detalle'),
+  url(r'^reporte/documento/consumo/$', 'reporte_documento_consumo', name = 'reporte_documento_consumo'),
   url(r'^reporte/documento/boleta/$', 'reporte_documento_boleta', name = 'reporte_documento_boleta'), 
   url(r'^reporte/documento/factura/$', 'reporte_documento_factura', name = 'reporte_documento_factura'), 
 

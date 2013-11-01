@@ -10,8 +10,8 @@ from django.core.urlresolvers import reverse
 from django.contrib.auth.models import User
 import json, datetime
 
-from ..models import Cliente, Pedido, Habitacion
-from ..utils import pedido_json, strtotime
+from ..models import Cliente, Pedido, Habitacion, Comanda, Consumo, Boleta, Factura
+from ..utils import pedido_json, strtotime, documento_json
 
 @login_required
 def reporte_pedido_fecha(request):
@@ -56,14 +56,13 @@ def reporte_pedido_habitacion(request):
   context = {'habitaciones': habitaciones}
   return render_to_response('reporte-pedido-habitacion.html', context, context_instance = RequestContext(request))
 
+@login_required
 def reporte_pedido_mozo(request):
 
   if request.method == 'POST':
     inicio = request.POST.get('inicio')
     fin = request.POST.get('fin')
     mozo = request.POST.get('mozo')
-
-    print mozo
 
     pedidos = []
 
@@ -83,14 +82,58 @@ def reporte_pedido_mozo(request):
   context = {'mozos': mozos}
   return render_to_response('reporte-pedido-mozo.html', context, context_instance = RequestContext(request))
 
+@login_required
 def reporte_documento_comanda(request):
+  if request.method == 'POST':
+    numero = request.POST.get('numero')
+
+    try:
+      documento = Comanda.objects.get(numero = numero)
+      context = documento_json(documento, 'comanda')
+    except:
+      context = {}          
+    
+    return HttpResponse(json.dumps(context), content_type="application/json")
   return render_to_response('reporte-documento-comanda.html', context_instance = RequestContext(request))
 
-def reporte_documento_detalle(request):
-  return render_to_response('reporte-documento-detalle.html', context_instance = RequestContext(request))
+@login_required
+def reporte_documento_consumo(request):
+  if request.method == 'POST':
+    numero = request.POST.get('numero')
 
+    try:
+      documento = Consumo.objects.get(numero = numero)
+      context = documento_json(documento, 'consumo')
+    except:
+      context = {}          
+    
+    return HttpResponse(json.dumps(context), content_type="application/json")
+  return render_to_response('reporte-documento-consumo.html', context_instance = RequestContext(request))
+
+@login_required
 def reporte_documento_boleta(request):
+  if request.method == 'POST':
+    numero = request.POST.get('numero')
+
+    try:
+      documento = Boleta.objects.get(numero = numero)
+      context = documento_json(documento, 'boleta')
+    except:
+      context = {}          
+    
+    return HttpResponse(json.dumps(context), content_type="application/json")
   return render_to_response('reporte-documento-boleta.html', context_instance = RequestContext(request))
 
+@login_required
 def reporte_documento_factura(request):
+  if request.method == 'POST':
+    numero = request.POST.get('numero')
+
+    try:
+      documento = Factura.objects.get(numero = numero)
+      context = documento_json(documento, 'factura')
+    except:
+      context = {}          
+    
+    return HttpResponse(json.dumps(context), content_type="application/json")
   return render_to_response('reporte-documento-factura.html', context_instance = RequestContext(request))

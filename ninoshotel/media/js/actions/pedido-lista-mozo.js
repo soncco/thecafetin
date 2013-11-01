@@ -36,7 +36,6 @@ var cafetin = cafetin || {};
     comanda = $(this).data('comanda');
     consumo = $(this).data('consumo');
     foraneo = $(this).data('foraneo');
-    debugger;
 
     $('.comanda').data('id', id);
     $('.consumo').data('id', id);
@@ -140,7 +139,7 @@ var cafetin = cafetin || {};
         $delete.hide();
       break;
     };
-    debugger;
+    
     $td.clone()
         .append($print.data('id', pedido.id)
           .data('comanda', pedido.tiene_comanda)

@@ -1,10 +1,10 @@
 {% extends 'base.html' %}
 {% block content %}
-<h1>Comandas</h1>
+<h1>Detalles de Consumo</h1>
 
 <form class="form-inline" role="form" id="the-form">
   <div class="form-group">
-    <input type="number" id="numero" class="form-control" name="numero" placeholder="Número de la comanda" min="1" required>
+    <input type="number" id="numero" class="form-control" name="numero" placeholder="Número del detalle de consumo" min="1" required>
   </div>
   <button class="btn btn-success ver" type="submit">Ver datos</button>
 </form>
@@ -14,7 +14,7 @@
 {% endblock %}
 {% block js %}
 <script type="text/template" id="template">
-  <h2>Comanda</h2>
+  <h2>Detalle de Consumo</h2>
   <div class="row doc-row">
     <div class="col-md-6"><strong>Número:</strong> {% templatetag openvariable %}numero{% templatetag closevariable %}</div>
     <div class="col-md-6"><strong>Fecha:</strong> {% templatetag openvariable %}fecha{% templatetag closevariable %}</div>
@@ -47,10 +47,10 @@
     </tfoot>
   </table>
   <p class="text-right">
-      <a class="btn btn-primary btn-block" href="/pedido/imprimir/comanda/{% templatetag openvariable %}pedido{% templatetag closevariable %}" target="_blank">Imprimir comanda</a>
+      <a class="btn btn-primary btn-block" href="/pedido/imprimir/consumo/{% templatetag openvariable %}pedido{% templatetag closevariable %}" target="_blank">Imprimir detalle de consumo</a>
   </p>
 </script>
 <script src="/media/js/vendor/underscore-min.js"></script>
 <script src="/media/js/vendor/mustache.js"></script>
-<script src="/media/js/actions/reporte-documento-comanda.js"></script>
+<script src="/media/js/actions/reporte-documento-consumo.js"></script>
 {% endblock %}

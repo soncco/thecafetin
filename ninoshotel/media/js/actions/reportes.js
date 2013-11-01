@@ -58,7 +58,7 @@ var $table = $('#pedido-lista'),
 
   parseDocumentos = function(pedido) {
     documentos = pedido.documentos;
-    debugger;
+
     $ul = $('<ul class="list-unstyled"></ul>');
     $li = $('<li></li>'); 
     if(pedido.visitante == '') {

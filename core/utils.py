@@ -73,9 +73,50 @@ def pedido_json(pedido):
     'documentos': docs
   }
 
-  #print thepedido
-
   return thepedido
+
+def documento_json(documento, tipo):
+
+  numero = documento.numero
+  cliente = str(documento.pedido.para)
+  fecha = documento.fecha
+  total = documento.total
+
+  if tipo == 'comanda':
+    collection = documento.comandadetalle_set.all()
+  if tipo == 'consumo':
+    collection = documento.consumodetalle_set.all()
+  if tipo == 'boleta':
+    collection = documento.boletadetalle_set.all()
+  if tipo == 'factura':
+    collection = documento.facturadetalle_set.all()
+
+  # Detalles
+  detalles = []
+  for detalle in collection:
+    cantidad = detalle.cantidad
+    plato = detalle.plato
+    unitario = detalle.unitario
+    subtotal = detalle.subtotal
+
+    detalles.append({
+      'cantidad': cantidad,
+      'plato': detalle.plato.nombre,
+      'unitario': float(unitario),
+      'subtotal': float(subtotal)
+    })
+
+  data = {
+    'numero': numero,
+    'fecha': str(fecha),
+    'cliente': cliente,
+    'total': float(total),
+    'pedido': documento.pedido.id,
+    'detalles': detalles
+  }
+
+  return data
+
 
 def total_pedido(pedido):
   total = 0
