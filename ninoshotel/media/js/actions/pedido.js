@@ -43,12 +43,14 @@ var cafetin = cafetin || {};
         dataType: "jsonp",
         success: function( data ) {
           response( $.map( data, function( item ) {
-            plato = item.nombre;
-            return {
-              'label': plato,
-              'value': plato,
-              'id': item.id
-            };
+            if(item.nombre.toUpperCase().indexOf(request.term.toUpperCase()) === 0) {
+              plato = item.nombre;
+              return {
+                'label': plato,
+                'value': plato,
+                'id': item.id
+              };  
+            }            
           }));
         }
       });

@@ -137,3 +137,7 @@ def reporte_documento_factura(request):
     
     return HttpResponse(json.dumps(context), content_type="application/json")
   return render_to_response('reporte-documento-factura.html', context_instance = RequestContext(request))
+
+@login_required
+def estadistica(request):
+  return render_to_response('estadistica.html', context_instance = RequestContext(request))
