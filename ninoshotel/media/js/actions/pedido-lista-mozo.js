@@ -146,8 +146,8 @@ var cafetin = cafetin || {};
     
     $td.clone()
         .append($print.data('id', pedido.id)
-          .data('comanda', pedido.tiene_comanda)
-          .data('consumo', pedido.tiene_consumo)
+          .data('comanda', (pedido.tiene_comanda == 'true') ? true : false)
+          .data('consumo', (pedido.tiene_consumo == 'true') ? true : false)
           .data('foraneo', (pedido.visitante != ''))
           )
         .append($delete.data('id', pedido.id))
