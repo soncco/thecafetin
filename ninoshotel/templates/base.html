@@ -61,6 +61,7 @@
     <script>
       io = io.connect(cafetin.ip, {'port': 3000});
       io.emit('room', {'room': '{{ request.session.local }}'});
+      cafetin.username = '{{ user.username }}';
     </script>
     {% block js %}{% endblock %}
   </body>

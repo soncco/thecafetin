@@ -101,6 +101,12 @@ var cafetin = cafetin || {};
     }
   };
 
+  sound = function() {
+    var chatsound = document.createElement('audio');
+    chatsound.setAttribute('src', '/media/sounds/sisfus.mp3');
+    chatsound.play();
+  };
+
   // ios.
   // Crea un pedido.
   io.on('pedido:creado', function(data) {
@@ -108,6 +114,7 @@ var cafetin = cafetin || {};
       pedido = data.pedidos[i];
       parsePedido(pedido);
     }
+    sound();
   });
 
   // Quita un pedido.

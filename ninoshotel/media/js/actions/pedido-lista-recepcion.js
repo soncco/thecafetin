@@ -25,6 +25,10 @@ var cafetin = cafetin || {};
     
     if(boleta == 'false') $('.boleta').hide();
     if(factura == 'false') $('.factura').hide();
+
+    /*if(!boleta) $('.boleta').hide();
+    if(!factura) $('.factura').hide();*/
+
     if(foraneo) {
       $('.boleta').show();
       $('.factura').hide();

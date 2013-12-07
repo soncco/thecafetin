@@ -42,8 +42,12 @@ var cafetin = cafetin || {};
 
     $('.comanda').show();
     $('.consumo').show();
-    if(comanda == 'false') $('.comanda').hide();
-    if(consumo == 'false') $('.consumo').hide();
+    /*if(comanda == 'false') $('.comanda').hide();
+    if(consumo == 'false') $('.consumo').hide();*/
+
+    if(!comanda) $('.comanda').hide();
+    if(!consumo) $('.consumo').hide();
+
     if(foraneo) {
       $('.comanda').show();
       $('.consumo').hide();
@@ -171,6 +175,12 @@ var cafetin = cafetin || {};
     }
   };
 
+  sound = function() {
+    var chatsound = document.createElement('audio');
+    chatsound.setAttribute('src', '/media/sounds/sisfus.mp3');
+    chatsound.play();
+  };
+
   // Crea un pedido.
   io.on('pedido:creado', function(data) {
     for(i = 0; i < data.pedidos.length; i++) {
@@ -198,6 +208,8 @@ var cafetin = cafetin || {};
 
     $tbody.find('#row-' + data.id + ' .delete')
       .remove();
+
+    sound();
 
   });
 

@@ -64,3 +64,8 @@ caption {
   border-bottom: 1px solid #cdcaca;
   margin-bottom: 10px;
 }
+
+.list-messages {
+  overflow-y: scroll;
+  height: 400px;
+}

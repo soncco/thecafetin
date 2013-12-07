@@ -53,4 +53,16 @@ app.io.route('pedido', {
   }
 });
 
+app.io.route('chat', function(req) {
+  req.io.join(req.data.room);
+});
+
+app.io.route('message', function(req) {
+  app.io.room('chat').broadcast('message', {
+    'cuando': req.data.cuando,
+    'hecho_por': req.data.hecho_por,
+    'mensaje': req.data.mensaje
+  });
+});
+
 app.listen(3000);

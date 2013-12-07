@@ -34,5 +34,6 @@
 {% endifusergroup %}
 {% if user.is_authenticated %}
 <li><a href="{% url 'blog' %}">Bitácora</a></li>
+<li><a href="{% url 'chat' %}">Chat</a></li>
 <li><a href="{% url 'the_logout' %}">Salir</a></li>
 {% endif %}

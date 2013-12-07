@@ -125,6 +125,11 @@ class Bitacora(models.Model):
   cuando = models.DateTimeField()
   mensaje = models.TextField()
 
+class Chat(models.Model):
+  hecho_por = models.ForeignKey(User)
+  mensaje = models.TextField()
+  cuando = models.DateTimeField()
+
 # Documentos
 class Comanda(models.Model):
   numero = models.IntegerField()

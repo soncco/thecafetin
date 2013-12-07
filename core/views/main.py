@@ -5,13 +5,13 @@ from django.template import RequestContext
 from django.contrib import messages
 from django.contrib.auth import login, logout, authenticate
 from django.contrib.auth.decorators import login_required, user_passes_test
-from django.http import HttpResponseRedirect
+from django.http import HttpResponseRedirect, HttpResponse
 from django.core.urlresolvers import reverse
 
-from ..models import Local, Bitacora, Plato, Punto
+from ..models import Local, Bitacora, Plato, Punto, Chat
 from django.contrib.auth.models import User
 
-import datetime
+import json, datetime
 
 @login_required()
 def index(request):
@@ -28,6 +28,28 @@ def blog(request):
   posts = Bitacora.objects.filter(hecho_por = request.user).order_by('-cuando')
   context = {'posts': posts}
   return render_to_response('blog.html', context, context_instance = RequestContext(request))
+
+@login_required()
+def chat(request):
+
+  if request.method == 'POST':
+    mensaje = request.POST.get('mensaje')
+    chat = Chat(mensaje = mensaje, hecho_por = request.user, cuando = datetime.datetime.now())
+    chat.save()
+
+    context = {'status': 'ok', 'mensaje': {
+      'cuando': str(chat.cuando),
+      'hecho_por': chat.hecho_por.username,
+      'mensaje': chat.mensaje
+    }}
+
+    print context
+
+    return HttpResponse(json.dumps(context), content_type="application/json")
+
+  chat_messages = Chat.objects.all().order_by('cuando')[0:50]
+  context = {'chat_messages': chat_messages}
+  return render_to_response('chat.html', context, context_instance = RequestContext(request))
 
 @login_required()
 def carta(request):

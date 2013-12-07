@@ -37,6 +37,7 @@ urlpatterns = patterns('core.views',
 
   # Varios.
   url(r'^blog/$', 'blog', name = 'blog'),
+  url(r'^chat/$', 'chat', name = 'chat'),
   url(r'^carta/$', 'carta', name = 'carta'),
 
   # JSON.
