@@ -66,8 +66,10 @@ def pedido_lista_habitacion(request, id):
 
 @login_required
 def pedido_lista_externos(request):
+  local = request.session['local']
+  print local
   context = []
-  pedidos = Pedido.objects.filter(visitante__isnull = False).filter(estado = 'I') | Pedido.objects.filter(visitante__isnull = False).filter(estado = 'A')
+  pedidos = Pedido.objects.filter(visitante__isnull = False, punto__pertenece_a = local).filter(estado = 'I') | Pedido.objects.filter(visitante__isnull = False, punto__pertenece_a = local).filter(estado = 'A')
 
   for pedido in pedidos:
     context.append(pedido_json(pedido))
