@@ -1,15 +1,29 @@
 {% extends 'base.html' %}
 {% block content %}
-<h1>Bitácora</h1>
+<h1>Agenda</h1>
 <form action="{% url 'blog' %}" role="form" method="post">
   <div class="form-group">
     <textarea name="mensaje" id="mensaje" cols="30" rows="3" class="form-control" placeholder="Escribe tu mensaje" required></textarea>
+  </div>
+    <div class="form-group">
+    <input type="text" class="form-control datepicker" name="cuando" id="cuando" placeholder="Fecha" required>
   </div>
   {% csrf_token %}
   <button class="btn btn-block btn-primary btn-lg post" type="submit">Publicar</button>
 </form>
 
-<h2>Mensajes</h2>
+<div class="page-header">
+  <h2>Mensajes
+    <div class="pull-right">
+      <form role="form" action="" class="form-inline">
+        <div class="form-group">
+          <input type="text" name="rango" id="rango" class="form-control datepicker" placeholder="Cambiar fecha">
+        </div>
+        <button type="submit" class="btn btn-info">Cambiar</button>
+      </form>
+    </div>
+  </h2>
+</div>
 <table class="table table-striped">
   <thead>
     <tr>

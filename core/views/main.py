@@ -21,11 +21,26 @@ def index(request):
 def blog(request):
   if request.method == 'POST':
     mensaje = request.POST.get('mensaje')
-    post = Bitacora(mensaje = mensaje, hecho_por = request.user, local = request.session['local'], cuando = datetime.datetime.now())
+    cuando = request.POST.get('cuando')
+    post = Bitacora(mensaje = mensaje, hecho_por = request.user, local = request.session['local'], cuando = cuando)
     post.save()
     messages.success(request, 'Mensaje creado')
     
-  posts = Bitacora.objects.filter(hecho_por = request.user).order_by('-cuando')
+
+  today_min = datetime.datetime.combine(datetime.date.today(), datetime.time.min)
+  today_max = datetime.datetime.combine(datetime.date.today(), datetime.time.max)
+
+  rango = request.GET.get('rango')
+
+  if (rango is None):
+    posts = Bitacora.objects.filter(
+      cuando__range = (today_min, today_max),
+    ).order_by('-cuando')
+  else:
+    posts = Bitacora.objects.filter(
+      cuando = rango
+    )
+
   context = {'posts': posts}
   return render_to_response('blog.html', context, context_instance = RequestContext(request))
 
