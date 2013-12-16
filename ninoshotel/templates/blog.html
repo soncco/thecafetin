@@ -17,7 +17,7 @@
     <div class="pull-right">
       <form role="form" action="" class="form-inline">
         <div class="form-group">
-          <input type="text" name="rango" id="rango" class="form-control datepicker" placeholder="Cambiar fecha">
+          <input type="text" name="rango" id="rango" class="form-control datepicker" placeholder="Cambiar fecha" {% if rango != None %}value="{{ rango }}"{% endif %}>
         </div>
         <button type="submit" class="btn btn-info">Cambiar</button>
       </form>
@@ -28,6 +28,7 @@
   <thead>
     <tr>
       <th>Local</th>
+      <th>Quien</th>
       <th>Cuando</th>
       <th>Mensaje</th>
     </tr>
@@ -36,6 +37,7 @@
     {% for post in posts %}
     <tr>
       <td>{{ post.local }}</td>
+      <td>{{ post.hecho_por }}</td>
       <td class="timeago" title="{{ post.cuando |date:"c"}}">{{ post.cuando |date:"D d M Y"}}</td>
       <td>{{ post.mensaje }}</td>
     </tr>

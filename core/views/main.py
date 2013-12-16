@@ -41,7 +41,7 @@ def blog(request):
       cuando = rango
     )
 
-  context = {'posts': posts}
+  context = {'posts': posts, 'rango': rango}
   return render_to_response('blog.html', context, context_instance = RequestContext(request))
 
 @login_required()
