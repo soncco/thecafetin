@@ -53,6 +53,6 @@ var cafetin = cafetin || {};
   
   setTimeout(function() {
     refreshDates();
-  }, 60000);
+  }, 5000);
 
 })(jQuery);

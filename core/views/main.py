@@ -47,7 +47,7 @@ def chat(request):
 
     return HttpResponse(json.dumps(context), content_type="application/json")
 
-  chat_messages = Chat.objects.all().order_by('cuando')[0:50]
+  chat_messages = Chat.objects.all().order_by('cuando')[-0:50]
   context = {'chat_messages': chat_messages}
   return render_to_response('chat.html', context, context_instance = RequestContext(request))
 
