@@ -99,7 +99,7 @@ def the_login(request):
         messages.error(request, 'Revise el usuario o la contraseña.')
 
     locales = Local.objects.all()
-    usuarios = User.objects.all()
+    usuarios = User.objects.filter(is_active = True)
     context = {'locales': locales, 'usuarios': usuarios}
   
   return render_to_response('login.html', context, context_instance = RequestContext(request))
