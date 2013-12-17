@@ -9,14 +9,6 @@ var cafetin = cafetin || {};
 
   atenderPedido = function() {
     atender = window.confirm('¿Está seguro de marcar este pedido como atendido?');
-
-    if(atender) {
-      io.emit('pedido:atender', {'id': $(this).data('id')});
-    }
-  };
-
-  atenderPedido = function() {
-    atender = window.confirm('¿Está seguro de marcar este pedido como atendido?');
     if(atender) {
       $.post('/pedido/atender/', {
         'id': $(this).data('id'),
@@ -30,6 +22,72 @@ var cafetin = cafetin || {};
       }); 
     }
   };
+
+  // Imprime un pedido.
+  printPedido = function() {
+    id = $(this).data('id');
+    comanda = $(this).data('comanda');
+    consumo = $(this).data('consumo');
+    foraneo = $(this).data('foraneo');
+
+    $('.comanda').data('id', id);
+    $('.consumo').data('id', id);
+
+    $('.comanda').show();
+    $('.consumo').show();
+    /*if(comanda == 'false') $('.comanda').hide();
+    if(consumo == 'false') $('.consumo').hide();*/
+
+    if(!comanda) $('.comanda').hide();
+    if(!consumo) $('.consumo').hide();
+
+    if(foraneo) {
+      $('.comanda').show();
+      $('.consumo').hide();
+    }
+
+    $('#theModal').modal({show: true});
+  };
+
+  printDoc = function() {
+    var id = $(this).data('id');
+    var what = $(this).data('what');
+    var thedoc = 0;
+    var number = 0;
+
+    $.when(
+      $.ajax({
+        url: '/json/' + what + '/' + id + '/',
+        dataType: 'json'
+      })
+    ).done(function(data) {
+      thedoc = parseInt(data);
+      if(what == 'consumo') {
+        if(!thedoc) {
+          number = prompt('Ingresa el número del detalle de consumo.');
+          if(number < 0) { // Fix.
+            alert('Debes ingresar un número');
+            return;
+          }
+        }
+      }
+
+      $.post('/pedido/imprimir/', {
+        'id': id,
+        'what': what,
+        'thedoc': thedoc,
+        'number': number,
+        'csrfmiddlewaretoken': $('input[name="csrfmiddlewaretoken"]').val()
+      }, function(data) {
+        if(data.status == 'ok') {
+          io.emit('pedido:imprimir', data);
+          $('#theModal').modal('hide');
+        } else {
+          alert('Hubo un error al imprimir el pedido, intenta nuevamente.');
+        }
+      });
+    }); 
+  }
 
   // Parsea los detalles del pedido JSON en una lista HTML.
   parseDetalles = function(detalles) {
@@ -50,6 +108,8 @@ var cafetin = cafetin || {};
     $tr = $('<tr></tr>');
     $td = $('<td></td>');
     $status = $('<span class="btn btn-sm"></span>');
+    $print = $('<button class="btn btn-sm btn-info print" data-id=""></button>&nbsp;')
+      .html($('<i class="icon icon-print"></i>'));
     $edit = $('<button class="btn btn-warning attend" data-id=""></button>&nbsp;').html($('<i class="icon icon-check"></i>'));
 
     if(pedido.visitante != '')
@@ -65,6 +125,7 @@ var cafetin = cafetin || {};
     // Verifica los estados del pedido.
     switch(pedido.estado) {
       case 'R':
+        $print.hide();
       break;
       case 'A':
         $edit.hide();
@@ -77,13 +138,21 @@ var cafetin = cafetin || {};
       break;
     }
 
+    debugger;
+
     $td.clone()
         .append($edit.data('id', pedido.id))
+        .append($print.data('id', pedido.id)
+          .data('comanda', (pedido.tiene_comanda == 'true') ? true : false)
+          .data('consumo', (pedido.tiene_consumo == 'true') ? true : false)
+          .data('foraneo', (pedido.visitante != ''))
+          )
       .addClass('actions')
       .appendTo($tr);
 
     // Agrega eventos a los botones.
     $tr.delegate('.attend', 'click', atenderPedido);
+    $tr.delegate('.print', 'click', printPedido);
 
     // Crea la fila.
     $tr
@@ -135,6 +204,14 @@ var cafetin = cafetin || {};
       .addClass('btn-warning animated bounceIn')
       .text('Atendido');
 
+    debugger;
+
+    $tbody.find('#row-' + data.id + ' .print')
+      .show()
+      .addClass('animated tada');
+
+    debugger;
+
   });
 
   // Marca un pedido como impreso.
@@ -165,5 +242,8 @@ var cafetin = cafetin || {};
   }, 300000);
 
   $('.attend').click(atenderPedido);
+  $('.print').click(printPedido);
+  $('.comanda').click(printDoc);
+  $('.consumo').click(printDoc);
 
 })(jQuery);

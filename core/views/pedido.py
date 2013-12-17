@@ -55,6 +55,18 @@ def pedido_lista_cocina(request):
     cuando__range = (today_min, today_max),
     punto__pertenece_a = local
   ).order_by('-cuando')
+
+  for pedido in pedidos:
+    comanda = 'false'
+    consumo = 'false'
+    for detalle in pedido.pedidodetalle_set.all():
+      if detalle.plato.tipo.recibo == 'C':
+        comanda = 'true'
+      if detalle.plato.tipo.recibo == 'D':
+        consumo = 'true'
+    pedido.tiene_comanda = comanda
+    pedido.tiene_consumo = consumo
+
   puntos = Punto.objects.filter(pertenece_a = request.session['local'])
 
   context = {'pedidos': pedidos, 'puntos': puntos}
