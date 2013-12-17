@@ -30,7 +30,7 @@ urlpatterns = patterns('core.views',
   url(r'^reporte/documento/boleta/$', 'reporte_documento_boleta', name = 'reporte_documento_boleta'), 
   url(r'^reporte/documento/factura/$', 'reporte_documento_factura', name = 'reporte_documento_factura'), 
 
-  url(r'^estadistica/$', 'estadistica', name = 'estadistica'), 
+  url(r'^reporte/mozo/masvendido/$', 'mas_vendido_mozo', name = 'mas_vendido_mozo'), 
 
   #Completo
   url(r'^pedido/lista/completo/mozo/$', 'pedido_lista_completo_mozo', name = 'pedido_lista_completo_mozo'),

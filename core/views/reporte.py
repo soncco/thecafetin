@@ -8,9 +8,10 @@ from django.contrib.auth.decorators import login_required, user_passes_test
 from django.http import HttpResponseRedirect, HttpResponse
 from django.core.urlresolvers import reverse
 from django.contrib.auth.models import User
+from django.db.models import Sum
 import json, datetime
 
-from ..models import Cliente, Pedido, Habitacion, Comanda, Consumo, Boleta, Factura
+from ..models import Cliente, Pedido, Habitacion, Comanda, Consumo, Boleta, Factura, Plato, PedidoDetalle
 from ..utils import pedido_json, strtotime, documento_json
 
 @login_required
@@ -139,5 +140,34 @@ def reporte_documento_factura(request):
   return render_to_response('reporte-documento-factura.html', context_instance = RequestContext(request))
 
 @login_required
-def estadistica(request):
-  return render_to_response('estadistica.html', context_instance = RequestContext(request))
+def mas_vendido_mozo(request):
+
+  if request.method == 'POST':
+    inicio = request.POST.get('inicio')
+    fin = request.POST.get('fin')
+    mozo = request.POST.get('mozo')
+
+    data = []
+
+    platos = Plato.objects.all()
+
+    if inicio != '' and fin != '':
+      inicio = strtotime(request.POST.get('inicio'))
+      fin = strtotime(request.POST.get('fin'))
+      detalles = PedidoDetalle.objects.filter(pertenece_al_pedido__hecho_por = mozo, pertenece_al_pedido__cuando__range = (inicio, fin))
+    else:
+      detalles = PedidoDetalle.objects.filter(pertenece_al_pedido__hecho_por = mozo)
+
+    for plato in platos:
+      total = detalles.filter(plato = plato).aggregate(total = Sum('cantidad'))
+      total = total['total']
+      if total is None:
+        total = 0
+        
+      data.append({'plato': plato.nombre, 'total': total})
+
+    return HttpResponse(json.dumps(data), content_type="application/json")
+
+  mozos = User.objects.filter(groups__name = 'Mozos')
+  context = {'mozos': mozos}
+  return render_to_response('mas-vendido-mozo.html', context, context_instance = RequestContext(request))
