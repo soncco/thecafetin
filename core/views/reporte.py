@@ -154,9 +154,13 @@ def mas_vendido_mozo(request):
     if inicio != '' and fin != '':
       inicio = strtotime(request.POST.get('inicio'))
       fin = strtotime(request.POST.get('fin'))
-      detalles = PedidoDetalle.objects.filter(pertenece_al_pedido__hecho_por = mozo, pertenece_al_pedido__cuando__range = (inicio, fin))
+      detalles = PedidoDetalle.objects.filter(
+        pertenece_al_pedido__hecho_por = mozo,
+        pertenece_al_pedido__cuando__range = (inicio, fin))
     else:
-      detalles = PedidoDetalle.objects.filter(pertenece_al_pedido__hecho_por = mozo)
+      detalles = PedidoDetalle.objects.filter(
+        pertenece_al_pedido__hecho_por = mozo
+        )
 
     for plato in platos:
       total = detalles.filter(plato = plato).aggregate(total = Sum('cantidad'))

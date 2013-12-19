@@ -39,6 +39,7 @@ class Cliente(models.Model):
   pais = models.CharField(max_length = 100)
   documento = models.CharField(max_length = 50)
   activo = models.BooleanField(default = True)
+  ingreso_pais = models.DateField()
   ingreso = models.DateField()
   salida = models.DateField(null = True, blank = True)
 
