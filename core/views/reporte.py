@@ -11,7 +11,7 @@ from django.contrib.auth.models import User
 from django.db.models import Sum
 import json, datetime
 
-from ..models import Cliente, Pedido, Habitacion, Comanda, Consumo, Boleta, Factura, Plato, PedidoDetalle
+from ..models import Cliente, Pedido, Habitacion, Comanda, Consumo, Boleta, Factura, Plato, PedidoDetalle, Punto, Local
 from ..utils import pedido_json, strtotime, documento_json
 
 @login_required
@@ -149,18 +149,21 @@ def mas_vendido_mozo(request):
 
     data = []
 
-    platos = Plato.objects.all()
+    local = request.session['local']
+    puntos = Punto.objects.filter(pertenece_a = local)
+    platos = Plato.objects.filter(de_venta_en__in = puntos)
 
     if inicio != '' and fin != '':
       inicio = strtotime(request.POST.get('inicio'))
       fin = strtotime(request.POST.get('fin'))
       detalles = PedidoDetalle.objects.filter(
         pertenece_al_pedido__hecho_por = mozo,
-        pertenece_al_pedido__cuando__range = (inicio, fin))
+        pertenece_al_pedido__cuando__range = (inicio, fin),
+        pertenece_al_pedido__punto__in = puntos)
     else:
       detalles = PedidoDetalle.objects.filter(
-        pertenece_al_pedido__hecho_por = mozo
-        )
+        pertenece_al_pedido__hecho_por = mozo,
+        pertenece_al_pedido__punto__in = puntos)
 
     for plato in platos:
       total = detalles.filter(plato = plato).aggregate(total = Sum('cantidad'))
