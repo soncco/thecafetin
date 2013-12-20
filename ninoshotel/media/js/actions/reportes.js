@@ -47,7 +47,6 @@ var $table = $('#pedido-lista'),
           .data('id', id)
           .text('Comanda nro: ' + documentos.comanda))
         .appendTo($ul);
-        $li.clone().text('Comanda nro: ' + documentos.comanda).appendTo($ul);
       } 
       if(documentos.consumo > 0){
         $li.clone().html($a.clone()
