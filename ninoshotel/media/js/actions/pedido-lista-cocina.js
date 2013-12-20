@@ -138,8 +138,6 @@ var cafetin = cafetin || {};
       break;
     }
 
-    debugger;
-
     $td.clone()
         .append($edit.data('id', pedido.id))
         .append($print.data('id', pedido.id)
@@ -204,13 +202,9 @@ var cafetin = cafetin || {};
       .addClass('btn-warning animated bounceIn')
       .text('Atendido');
 
-    debugger;
-
     $tbody.find('#row-' + data.id + ' .print')
       .show()
       .addClass('animated tada');
-
-    debugger;
 
   });
 
@@ -226,6 +220,13 @@ var cafetin = cafetin || {};
         .text('Impreso');
     }
   });
+
+  // Muestra una ventana con el comprobante.
+  io.on('pedido:imprime', function(data) {
+    frameSrc = '/pedido/imprimir/' + data.what + '/' + data.id;
+    $('iframe').attr("src", frameSrc);
+    $('#printModal').modal({show: true});
+  }); 
 
   // Marca un pedido como pagado.
   io.on('pedido:pagado', function(data) {
