@@ -5,6 +5,9 @@ from datetime import datetime
 
 from django.utils.encoding import smart_str, smart_unicode
 
+def current_year():
+  return datetime.now().year
+
 def pedido_json(pedido):
   cliente = pedido.para
   fecha = pedido.cuando
@@ -20,7 +23,7 @@ def pedido_json(pedido):
   detalles = []
   for detalle in pedido.pedidodetalle_set.all():
     cantidad = detalle.cantidad
-    precio = float(detalle.plato.precioplato_set.get(anio = 2013).precio)
+    precio = float(detalle.plato.precioplato_set.get(anio = current_year()).precio)
     sub = cantidad * precio
     if detalle.plato.tipo.recibo == 'D':
       tiene_consumo = 'true'
@@ -121,7 +124,7 @@ def documento_json(documento, tipo):
 def total_pedido(pedido):
   total = 0
   for detalle in pedido.pedidodetalle_set.all():
-    precio = detalle.plato.precioplato_set.get(anio = 2013).precio
+    precio = detalle.plato.precioplato_set.get(anio = current_year()).precio
     cantidad = detalle.cantidad
     total +=  precio * cantidad
 
@@ -131,7 +134,7 @@ def total_pedido_tipo(pedido, tipo):
   total = 0
   for detalle in pedido.pedidodetalle_set.all():
     if detalle.plato.tipo.recibo == tipo:
-      precio = detalle.plato.precioplato_set.get(anio = 2013).precio
+      precio = detalle.plato.precioplato_set.get(anio = current_year()).precio
       cantidad = detalle.cantidad
       total +=  precio * cantidad
 
@@ -151,7 +154,7 @@ def crear_comanda(request, pedido):
     if detalle.plato.tipo.recibo == 'C':
       plato = detalle.plato
       cantidad = detalle.cantidad
-      unitario = detalle.plato.precioplato_set.get(anio = 2013).precio
+      unitario = detalle.plato.precioplato_set.get(anio = current_year()).precio
       subtotal = cantidad * unitario
       cd = ComandaDetalle(pertenece_a_comanda = comanda, plato = plato, cantidad = cantidad, unitario = unitario, subtotal = subtotal)
       cd.save()
@@ -169,7 +172,7 @@ def crear_comanda_externo(request, pedido):
   for detalle in pedido.pedidodetalle_set.all():
     plato = detalle.plato
     cantidad = detalle.cantidad
-    unitario = detalle.plato.precioplato_set.get(anio = 2013).precio
+    unitario = detalle.plato.precioplato_set.get(anio = current_year()).precio
     subtotal = cantidad * unitario
     cd = ComandaDetalle(pertenece_a_comanda = comanda, plato = plato, cantidad = cantidad, unitario = unitario, subtotal = subtotal)
     cd.save()
@@ -189,7 +192,7 @@ def crear_consumo(request, pedido, number):
     if detalle.plato.tipo.recibo == 'D':
       plato = detalle.plato
       cantidad = detalle.cantidad
-      unitario = detalle.plato.precioplato_set.get(anio = 2013).precio
+      unitario = detalle.plato.precioplato_set.get(anio = current_year()).precio
       subtotal = cantidad * unitario
       cd = ConsumoDetalle(pertenece_a_consumo = consumo, plato = plato, cantidad = cantidad, unitario = unitario, subtotal = subtotal)
       cd.save()
@@ -210,7 +213,7 @@ def crear_boleta(request, pedido, number):
     if detalle.plato.tipo.recibo == 'C':
       plato = detalle.plato
       cantidad = detalle.cantidad
-      unitario = detalle.plato.precioplato_set.get(anio = 2013).precio
+      unitario = detalle.plato.precioplato_set.get(anio = current_year()).precio
       subtotal = cantidad * unitario
       bd = BoletaDetalle(pertenece_a_boleta = boleta, plato = plato, cantidad = cantidad, unitario = unitario, subtotal = subtotal)
       bd.save()
@@ -229,7 +232,7 @@ def crear_boleta_externo(request, pedido, number):
   for detalle in pedido.pedidodetalle_set.all():
     plato = detalle.plato
     cantidad = detalle.cantidad
-    unitario = detalle.plato.precioplato_set.get(anio = 2013).precio
+    unitario = detalle.plato.precioplato_set.get(anio = current_year()).precio
     subtotal = cantidad * unitario
     bd = BoletaDetalle(pertenece_a_boleta = boleta, plato = plato, cantidad = cantidad, unitario = unitario, subtotal = subtotal)
     bd.save()
@@ -249,7 +252,7 @@ def crear_factura(request, pedido, number):
     if detalle.plato.tipo.recibo == 'D':
       plato = detalle.plato
       cantidad = detalle.cantidad
-      unitario = detalle.plato.precioplato_set.get(anio = 2013).precio
+      unitario = detalle.plato.precioplato_set.get(anio = current_year()).precio
       subtotal = cantidad * unitario
       fd = FacturaDetalle(pertenece_a_factura = factura, plato = plato, cantidad = cantidad, unitario = unitario, subtotal = subtotal)
       fd.save()

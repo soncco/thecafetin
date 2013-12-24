@@ -9,6 +9,7 @@ from django.http import HttpResponseRedirect, HttpResponse
 from django.core.urlresolvers import reverse
 
 from ..models import Local, Bitacora, Plato, Punto, Chat
+from ..utils import current_year
 from django.contrib.auth.models import User
 
 import json, datetime
@@ -73,7 +74,7 @@ def carta(request):
   platos = Plato.objects.filter(de_venta_en__in = puntos)
 
   for plato in platos:
-    plato.theprecio = plato.precioplato_set.get(anio = 2013).precio
+    plato.theprecio = plato.precioplato_set.get(anio = current_year()).precio
 
   context = {'platos': platos}
   return render_to_response('carta.html', context, context_instance = RequestContext(request))
