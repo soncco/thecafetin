@@ -3,8 +3,7 @@ var cafetin = cafetin || {};
 (function($) {
 
   var $inicio = $('#inicio'),
-   $fin = $('#fin'),
-   $mozo = $('#mozo');
+   $fin = $('#fin');
 
   $('.datepicker').datepicker({
     changeMonth: true,
@@ -39,19 +38,17 @@ var cafetin = cafetin || {};
 
     $.when(
       $.ajax({
-        url: '/reporte/mozo/masvendido/',
+        url: '/reporte/plato/ranking/',
         data: {
           'inicio': $inicio.val(),
           'fin': $fin.val(),
-          'mozo': $mozo.val(),
           'csrfmiddlewaretoken': $('input[name="csrfmiddlewaretoken"]').val()
         },
         type: 'POST',
         dataType: 'json'
       })
     ).done(function(data) {
-      realData = [{'key': 'Platos más vendidos por mozo', 'values': data}];
-      //console.log(JSON.stringify(realData));
+      realData = [{'key': 'Ranking de platos', 'values': data}];
       nv.addGraph(renderData(realData));
     });
   });

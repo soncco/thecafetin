@@ -31,6 +31,7 @@ urlpatterns = patterns('core.views',
   url(r'^reporte/documento/factura/$', 'reporte_documento_factura', name = 'reporte_documento_factura'), 
 
   url(r'^reporte/mozo/masvendido/$', 'mas_vendido_mozo', name = 'mas_vendido_mozo'), 
+  url(r'^reporte/plato/ranking/$', 'ranking_platos', name = 'ranking_platos'), 
 
   #Completo
   url(r'^pedido/lista/completo/mozo/$', 'pedido_lista_completo_mozo', name = 'pedido_lista_completo_mozo'),
