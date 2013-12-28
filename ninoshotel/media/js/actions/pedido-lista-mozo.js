@@ -60,7 +60,6 @@ var cafetin = cafetin || {};
     var id = $(this).data('id');
     var what = $(this).data('what');
     var thedoc = 0;
-    var number = 0;
 
     $.when(
       $.ajax({
@@ -69,21 +68,11 @@ var cafetin = cafetin || {};
       })
     ).done(function(data) {
       thedoc = parseInt(data);
-      if(what == 'consumo') {
-        if(!thedoc) {
-          number = prompt('Ingresa el número del detalle de consumo.');
-          if(number < 0) { // Fix.
-            alert('Debes ingresar un número');
-            return;
-          }
-        }
-      }
 
       $.post('/pedido/imprimir/', {
         'id': id,
         'what': what,
         'thedoc': thedoc,
-        'number': number,
         'csrfmiddlewaretoken': $('input[name="csrfmiddlewaretoken"]').val()
       }, function(data) {
         if(data.status == 'ok') {

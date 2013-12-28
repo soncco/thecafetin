@@ -206,7 +206,7 @@ def pedido_imprimir(request):
           crear_comanda(request, pedido)
 
       if what == 'consumo':
-        crear_consumo(request, pedido, number)
+        crear_consumo(request, pedido)
 
       if what == 'boleta':
         try:

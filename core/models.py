@@ -159,6 +159,12 @@ class Consumo(models.Model):
   pedido = models.OneToOneField(Pedido)
   total = models.DecimalField(max_digits = 5, decimal_places = 2, default = Decimal('0.00'))
 
+  def save(self):
+    if self.numero == None:
+      total = Consumo.objects.filter(local = self.local).count()
+      self.numero = total + 1
+    super(Consumo, self).save()
+
 class ConsumoDetalle(models.Model):
   pertenece_a_consumo = models.ForeignKey(Consumo)
   plato = models.ForeignKey(Plato)

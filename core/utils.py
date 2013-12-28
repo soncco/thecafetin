@@ -177,15 +177,14 @@ def crear_comanda_externo(request, pedido):
     cd = ComandaDetalle(pertenece_a_comanda = comanda, plato = plato, cantidad = cantidad, unitario = unitario, subtotal = subtotal)
     cd.save()
 
-def crear_consumo(request, pedido, number):
+def crear_consumo(request, pedido):
   local = request.session['local']
   total = total_pedido_tipo(pedido, 'D')
-  numero = number
 
   if Consumo.objects.filter(pedido = pedido).count > 0:
     pass
 
-  consumo = Consumo(local = local, pedido = pedido, total = total, numero = numero)
+  consumo = Consumo(local = local, pedido = pedido, total = total)
   consumo.save()
 
   for detalle in pedido.pedidodetalle_set.all():
@@ -196,7 +195,6 @@ def crear_consumo(request, pedido, number):
       subtotal = cantidad * unitario
       cd = ConsumoDetalle(pertenece_a_consumo = consumo, plato = plato, cantidad = cantidad, unitario = unitario, subtotal = subtotal)
       cd.save()
-
 
 def crear_boleta(request, pedido, number):
   local = request.session['local']
