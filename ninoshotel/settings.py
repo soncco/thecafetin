@@ -137,6 +137,7 @@ INSTALLED_APPS = (
     # Uncomment the next line to enable admin documentation:
     # 'django.contrib.admindocs',
     'core',
+    'raven.contrib.django.raven_compat',
 )
 
 # A sample logging configuration. The only tangible logging
@@ -192,3 +193,8 @@ CACHES = {
         'LOCATION': '127.0.0.1:11211',
     }
 }
+
+RAVEN_CONFIG = {
+    'dsn': 'https://603cef3f4b4c40b6b0e18c0f3298080f:a7c779b6a7894eed8dc8246e30b1f4ae@app.getsentry.com/18313',
+}
+
