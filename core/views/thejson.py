@@ -38,7 +38,7 @@ def json_platos_local(request, q):
   puntos = Punto.objects.filter(pertenece_a = local)
   
   # Busqueda de platos de locales
-  platos = Plato.objects.filter(de_venta_en__in = puntos, nombre__icontains = q)
+  platos = Plato.objects.filter(de_venta_en__in = puntos, nombre__icontains = q, activo = True)
   callback = request.GET.get('callback')
   context = []
   for plato in platos:

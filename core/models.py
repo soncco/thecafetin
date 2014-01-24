@@ -76,6 +76,7 @@ class Plato(models.Model):
   tipo = models.ForeignKey(Tipo)
   de_venta_en = models.ManyToManyField(Punto)
   foto = models.FileField(upload_to = 'fotos', default = 'default.jpg')
+  activo = models.BooleanField(default = True)
 
   def __unicode__(self):
     return self.nombre
@@ -90,7 +91,7 @@ class PrecioPlato(models.Model):
     verbose_name_plural = "Precios"
 
   def __unicode__(self):
-    return self.precio
+    return str(self.precio)
 
 # Pedidos
 class Pedido(models.Model):
