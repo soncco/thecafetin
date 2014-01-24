@@ -40,6 +40,9 @@ urlpatterns = patterns('core.views',
   url(r'^blog/$', 'blog', name = 'blog'),
   url(r'^chat/$', 'chat', name = 'chat'),
   url(r'^carta/$', 'carta', name = 'carta'),
+  url(r'^clientes/$', 'clientes', name = 'clientes'),
+  url(r'^clientes/agregar$', 'cliente_agregar', name = 'cliente_agregar'),
+  url(r'^checkout/$', 'checkout', name = 'checkout'),
 
   # JSON.
   url(r'^json/cliente/(?P<q>.*)/$', 'json_clientes_local', name = 'json_clientes_local'),

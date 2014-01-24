@@ -9,6 +9,7 @@
 <li><a href="{% url 'pedido_lista_cocina' %}">Atender pedidos</a></li>
 {% endifusergroup %}
 {% ifusergroup Recepcionistas %}
+<li><a href="{% url 'clientes' %}">Manejar clientes</a></li>
 <li><a href="{% url 'pedido_lista_recepcion' %}">Manejar pedidos</a></li>
 {% endifusergroup %}
 {% ifusergroup Administradores %}

@@ -7,8 +7,9 @@ from django.contrib.auth import login, logout, authenticate
 from django.contrib.auth.decorators import login_required, user_passes_test
 from django.http import HttpResponseRedirect, HttpResponse
 from django.core.urlresolvers import reverse
+from django.db.models import Q
 
-from ..models import Local, Bitacora, Plato, Punto, Chat
+from ..models import Local, Bitacora, Plato, Punto, Chat, Cliente, Habitacion
 from ..utils import current_year
 from django.contrib.auth.models import User
 
@@ -64,6 +65,60 @@ def chat(request):
   chat_messages = Chat.objects.all().order_by('-cuando')[0:50]
   context = {'chat_messages': reversed(chat_messages)}
   return render_to_response('chat.html', context, context_instance = RequestContext(request))
+
+@login_required()
+def clientes(request):
+  clientes = Cliente.objects.filter(hospedado_en__pertenece_a = request.session['local'], activo = True)
+  clientes = clientes.filter(~Q(nombres = 'Foraneo')).order_by('hospedado_en')
+  context = {'clientes': clientes}
+  return render_to_response('clientes.html', context, context_instance = RequestContext(request))
+
+@login_required()
+def cliente_agregar(request):
+  if request.method == 'POST':
+    habitacion = Habitacion.objects.get(pk = request.POST.get('hospedado_en'))
+
+    nombres = request.POST.get('nombres')
+    apellidos = request.POST.get('apellidos')
+    hospedado_en = habitacion
+    pais = request.POST.get('pais')
+    documento = request.POST.get('documento')
+    activo = request.POST.get('activo')
+    ingreso_pais = request.POST.get('ingreso_pais')
+    ingreso = request.POST.get('ingreso')
+    salida = request.POST.get('salida')
+
+    cliente = Cliente(
+      nombres = nombres,
+      apellidos = apellidos,
+      hospedado_en = hospedado_en,
+      pais = pais,
+      documento = documento,
+      activo = activo,
+      ingreso_pais = ingreso_pais,
+      ingreso = ingreso
+    )
+
+    if salida != '':
+      cliente.salida = salida
+
+    cliente.save()
+    messages.success(request, 'Se ha creado el cliente %s' % (cliente))
+    return HttpResponseRedirect(reverse('clientes'))
+
+  habitaciones = Habitacion.objects.filter(pertenece_a = request.session['local'])
+  context = {'habitaciones': habitaciones}
+  return render_to_response('cliente-agregar.html', context, context_instance = RequestContext(request))  
+
+@login_required()
+def checkout(request):
+  pk = request.POST.get('id')
+  cliente = Cliente.objects.get(pk = pk)
+  cliente.salida = datetime.datetime.now()
+  cliente.activo = False
+  cliente.save()
+
+  return HttpResponse('')
 
 @login_required()
 def carta(request):
