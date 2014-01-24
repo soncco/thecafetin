@@ -9,6 +9,7 @@
       <th>Hospedado en</th>
       <th>País</th>
       <th>Documento</th>
+      <th>Ingreso al hotel</th>
       <th>Ingreso al país</th>
       <th>Estado</th>
       <th>Acciones</th>
@@ -21,6 +22,7 @@
       <td>{{ cliente.hospedado_en }}</td>
       <td>{{ cliente.pais }}</td>
       <td>{{ cliente.documento }}</td>
+      <td>{{ cliente.ingreso }}</td>
       <td>{% if cliente.ingreso_pais %}{{ cliente.ingreso_pais }}{% else %}Sin datos{% endif %}</td>
       <td>Activo</td>
       <td><button class="btn btn-danger btn-sm checkout" type="button">Checkout</button></td>
