@@ -127,7 +127,10 @@ def carta(request):
   platos = Plato.objects.filter(de_venta_en__in = puntos)
 
   for plato in platos:
-    plato.theprecio = plato.precioplato_set.get(anio = current_year()).precio
+    try:
+      plato.theprecio = plato.precioplato_set.get(anio = current_year()).precio
+    except:
+      plato.theprecio = plato.precioplato_set.filter(anio = current_year())[0].precio
 
   context = {'platos': platos}
   return render_to_response('carta.html', context, context_instance = RequestContext(request))
