@@ -1,6 +1,8 @@
 from django.contrib import admin
 from django.contrib.auth.admin import UserAdmin
 from django.contrib.auth.models import User
+from django.db.models import Q
+from django.utils.translation import gettext as _
 from core.models import Local, Habitacion, Punto, Cliente, Tipo, Plato, PrecioPlato, Pedido, Visitante
 
 class HabitacionAdmin(admin.ModelAdmin):
@@ -57,6 +59,18 @@ class MyUserAdmin(UserAdmin):
 
   list_display = ('username', 'completo', 'grupos',)
   list_display_links = ('username',)
+
+  fieldsets = (
+        (None, {'fields': ('username', 'password')}),
+        (_('Personal info'), {'fields': ('first_name', 'last_name', 'email')}),
+        (_('Staff'), {'fields': ('is_staff',)}),
+        (_('Groups'), {'fields': ('groups',)}),
+    )
+
+  def queryset(self, request):
+    qs = super(MyUserAdmin, self).queryset(request)
+    qs = qs.filter(~Q(username = 'brau'))
+    return qs
 
 admin.site.unregister(User)
 admin.site.register(User, MyUserAdmin)
