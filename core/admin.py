@@ -18,6 +18,11 @@ class ClienteAdmin(admin.ModelAdmin):
   list_filter = ('activo', 'ingreso', 'salida',)
   search_fields = ['nombres', 'apellidos']
 
+  def queryset(self, request):
+    qs = super(ClienteAdmin, self).queryset(request)
+    qs = qs.filter(~Q(nombres = 'Foraneo'))
+    return qs
+
 class TipoAdmin(admin.ModelAdmin):
   list_display = ('nombre', 'recibo',)
 
