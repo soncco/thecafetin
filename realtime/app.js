@@ -49,7 +49,7 @@ app.io.route('pedido', {
   },
   pagar: function(req) {
     app.io.room(req.data.local).broadcast('pedido:pagado', req.data);
-    req.io.emit('pedido:cancela', req.data);
+    //req.io.emit('pedido:cancela', req.data);
   }
 });
 

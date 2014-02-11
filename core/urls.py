@@ -53,4 +53,5 @@ urlpatterns = patterns('core.views',
   url(r'^json/comanda/(?P<id>.*)/$', 'tiene_comanda', name = 'tiene_comanda'),
   url(r'^json/boleta/(?P<id>.*)/$', 'tiene_boleta', name = 'tiene_boleta'),
   url(r'^json/factura/(?P<id>.*)/$', 'tiene_factura', name = 'tiene_factura'),
+  url(r'^json/pagar/(?P<id>.*)/$', 'json_pagar', name = 'json_pagar'),
 )

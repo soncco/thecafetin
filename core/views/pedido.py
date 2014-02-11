@@ -215,14 +215,14 @@ def pedido_imprimir(request):
         except:
           crear_boleta(request, pedido, number)
 
-        pedido.estado = 'P'
-        pedido.save()
+        #pedido.estado = 'P'
+        #pedido.save()
 
       if what == 'factura':
         crear_factura(request, pedido, number)
 
-        pedido.estado = 'P'
-        pedido.save()
+        #pedido.estado = 'P'
+        #pedido.save()
 
     try:
       if pedido.estado == 'A':
@@ -239,3 +239,12 @@ def pedido_imprimir(request):
 @login_required
 def pedido_lista_completo_mozo(request):
   return render_to_response('pedido-lista-completo-mozo.html', context_instance = RequestContext(request))
+
+@login_required
+def json_pagar(request, id):
+  pedido = Pedido.objects.get(id = id)
+  pedido.estado = 'P'
+  pedido.save()
+  
+  context = {'id': id}
+  return HttpResponse(json.dumps(context), mimetype = "application/json")

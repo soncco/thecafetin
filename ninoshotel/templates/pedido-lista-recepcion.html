@@ -13,24 +13,28 @@
       {% endfor %}
     </select>
   </div>
-  <button class="btn btn-success ver" type="submit">Ver pedidos</button> o también puedes
-  <button class="btn btn-info ver-externo" type="button">Ver pedidos externos</button>
+  <button class="btn btn-success ver" type="submit" data-loading-text="Un momento...">Ver pedidos</button> o también puedes
+  <button class="btn btn-info ver-externo" type="button" data-loading-text="Un momento...">Ver pedidos externos</button>
 </form>
 <table class="table table-striped pedido-lista" id="pedido-lista" style="display: none">
   <thead>
     <tr>
       <th>Cliente</th>
       <th>Pedido</th>
-      <th>Comentarios</th>
       <th>Mozo</th>
       <th>Fecha</th>
       <th>Estado</th>
-      <th>Acciones</th>
+      <th colspan="2">Acciones</th>
     </tr>
   </thead>
   <tbody>
     
   </tbody>
+  <tfoot>
+    <th colspan="7">
+      <button class="btn btn-block btn-success generate" type="button" style="display: none;">Pagar todos los pedidos</button>
+    </th>
+  </tfoot>
 </table>
 <div class="modal fade" id="theModal">
   <div class="modal-dialog">

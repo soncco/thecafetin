@@ -9,6 +9,7 @@ var cafetin = cafetin || {};
   var $tbody = $table.find('tbody');
   var $ver = $('.ver');
   var $verexterno = $('.ver-externo');
+  var $generate = $('.generate');
 
   // Imprime un pedido.
   printPedido = function() {
@@ -35,6 +36,21 @@ var cafetin = cafetin || {};
     }
 
     $('#theModal').modal({show: true});
+  };
+
+  markPay = function() {
+    marcar = window.confirm('¿Está seguro de marcar este pedido como pagado?');
+    if(marcar) {
+      id = $(this).data('id');
+      $.when(
+      $.ajax({
+        url: '/json/pagar/' + id + '/',
+        dataType: 'json'
+      })
+      ).done(function(data) {
+        io.emit('pedido:pagar', {'id': data.id});
+      });      
+    }
   };
 
   printDoc = function() {
@@ -66,8 +82,10 @@ var cafetin = cafetin || {};
         'csrfmiddlewaretoken': $('input[name="csrfmiddlewaretoken"]').val()
       }, function(data) {
         if(data.status == 'ok') {
-          io.emit('pedido:pagar', data);
           $('#theModal').modal('hide');
+          frameSrc = '/pedido/imprimir/' + data.what + '/' + data.id;
+          $('iframe').attr("src", frameSrc);
+          $('#printModal').modal({show: true});
         } else {
           alert('Hubo un error al imprimir el pedido, intenta nuevamente.');
         }
@@ -94,6 +112,8 @@ var cafetin = cafetin || {};
     $td = $('<td></td>');
     $status = $('<span class="btn btn-sm"></span>');
     $pay = $('<button class="btn btn-sm btn-success pay" data-id=""></button>')
+      .html($('<i class="icon icon-hand-right"></i>'));
+    $payed = $('<button class="btn btn-sm btn-default payed" data-id=""></button>')
       .html($('<i class="icon icon-dollar"></i>'));
     
     if(pedido.visitante != '')
@@ -101,7 +121,6 @@ var cafetin = cafetin || {};
     else
       $td.clone().text(pedido.para).appendTo($tr);
     $td.clone().html(parseDetalles(pedido.detalles)).appendTo($tr);
-    $td.clone().text(pedido.comentarios).appendTo($tr);
     $td.clone().text(pedido.hecho_por).appendTo($tr);
     $td.clone().text(jQuery.timeago(pedido.fecha)).addClass('timeago').appendTo($tr);
     $td.clone().html($status.text(cafetin.estados[pedido.estado].texto).addClass(cafetin.estados[pedido.estado].clase)).appendTo($tr);
@@ -114,9 +133,13 @@ var cafetin = cafetin || {};
         .append($pay.data('id', pedido.id))
       .addClass('actions')
       .appendTo($tr);
+    $td.clone()
+      .append($payed.data('id', pedido.id))
+      .appendTo($tr);
 
     // Agrega eventos a los botones.
     $tr.delegate('.pay', 'click', printPedido);
+    $tr.delegate('.payed', 'click', markPay);
 
 
     // Crea la fila.
@@ -153,11 +176,11 @@ var cafetin = cafetin || {};
   });
 
   // Muestra una ventana con el comprobante.
-  io.on('pedido:cancela', function(data) {
+  /*io.on('pedido:cancela', function(data) {
     frameSrc = '/pedido/imprimir/' + data.what + '/' + data.id;
     $('iframe').attr("src", frameSrc);
     $('#printModal').modal({show: true});
-  }); 
+  });*/
 
   // Marca un pedido como pagado.
   io.on('pedido:pagado', function(data) {
@@ -172,8 +195,7 @@ var cafetin = cafetin || {};
     $tbody.empty();
     $table.removeClass('animated fadeInDownBig').delay(1000).hide();
 
-    $ver.attr('disabled', 'disabled');
-    $ver.text('Un momento...');
+    $ver.button('loading');
 
     $.when(
       $.ajax({
@@ -184,12 +206,12 @@ var cafetin = cafetin || {};
       if(data.pedidos.length > 0) {
         parsePedidos(data.pedidos);
         $table.show().addClass('animated fadeInDownBig');
+        $generate.show();
       } else {
         alert('No existen pedidos.');
       }
 
-      $ver.removeAttr('disabled');
-      $ver.text('Ver pedidos');
+      $ver.button('reset');
     });
 
     e.preventDefault();
@@ -200,8 +222,7 @@ var cafetin = cafetin || {};
     $tbody.empty();
     $table.removeClass('animated fadeInDownBig').delay(1000).hide();
 
-    $verexterno.attr('disabled', 'disabled');
-    $verexterno.text('Un momento...');
+    $verexterno.button('loading');
 
     $.when(
       $.ajax({
@@ -212,12 +233,12 @@ var cafetin = cafetin || {};
       if(data.pedidos.length > 0) {
         parsePedidos(data.pedidos);
         $table.show().addClass('animated fadeInDownBig');
+        $generate.hide();
       } else {
         alert('No existen pedidos.');
       }
 
-      $verexterno.removeAttr('disabled');
-      $verexterno.text('Ver pedidos externos');
+      $verexterno.button('reset');
     });
   });
 
