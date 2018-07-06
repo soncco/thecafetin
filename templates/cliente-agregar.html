@@ -1,0 +1,55 @@
+{% extends 'base.html' %}
+{% block content %}
+<h1>Nuevo cliente en {{ request.session.local }}</h1>
+
+<form action="" id="the-form" role="form" method="post">
+  <div class="form-group">
+    <label for="nombres">Nombres:</label>
+    <input type="text" class="form-control" id="nombres" name="nombres" maxlength="100" required autofocus>
+  </div>
+  <div class="form-group">
+    <label for="apellidos">Apellidos:</label>
+    <input type="text" class="form-control" id="apellidos" name="apellidos" maxlength="100" required>
+  </div>
+  <div class="form-group">
+    <label for="hospedado_en">Hospedado en:</label>
+    <select name="hospedado_en" id="hospedado_en" class="form-control" required="">
+      <option value="">Escoge una habitación</option>
+      {% for habitacion in habitaciones %}
+      <option value="{{ habitacion.id}}">{{ habitacion.nombre }}</option>
+      {% endfor %}
+    </select>
+  </div>
+  <div class="form-group">
+    <label for="pais">País:</label>
+    <input type="text" class="form-control" id="pais" name="pais" maxlength="50" required>
+  </div>
+  <div class="form-group">
+    <label for="documento">Documento:</label>
+    <input type="text" class="form-control" id="documento" name="documento" maxlength="50" required autocomplete="off">
+  </div>
+  <div class="form-group">
+    <label for="ingreso_pais">Ingreso al país:</label>
+    <input type="text" class="form-control datepicker" id="ingreso_pais" name="ingreso_pais" maxlength="50" required>
+  </div>
+  <div class="form-group">
+    <label for="ingreso">Ingreso al hotel:</label>
+    <input type="text" class="form-control datepicker" id="ingreso" name="ingreso" maxlength="50" required>
+  </div>
+  <div class="form-group">
+    <label for="salida">Salida del hotel:</label>
+    <input type="text" class="form-control datepicker" id="salida" name="salida" maxlength="50">
+  </div>
+  <div class="checkbox">
+    <label>
+      <input type="checkbox" checked name="activo"> Este cliente está activo, es decir, hospedado.
+    </label>
+  </div>
+  <button class="btn btn-primary" type="submit">Guardar cliente</button>
+  <a href="{% url 'clientes' %}" class="btn btn-default">Cancelar</a>
+  {% csrf_token %}
+</form>
+{% endblock %}
+{% block js %}
+<script src="/media/js/actions/cliente-agregar.js"></script>
+{% endblock %}

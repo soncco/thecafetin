@@ -1,0 +1,152 @@
+{% extends 'base.html' %}
+{% block content %}
+<h1>Lista de pedidos</h1>
+<ul class="nav nav-tabs">
+{% for punto in puntos %}
+<li{% if forloop.first %} class="active"{% endif %}>
+  <a href="#tab-{{ punto.id }}" data-toggle="tab">{{ punto }}</a>
+</li>
+{% endfor %}
+</ul>
+<div class="tab-content">
+{% for punto in puntos %}
+  <div id="tab-{{ punto.id }}" class="tab-pane{% if forloop.first %} active{% endif %}">
+    <table class="table table-striped pedido-lista" id="pedido-lista-{{ punto.id }}">
+      <thead>
+        <tr>
+          <th>Cliente</th>
+          <th>Pedido</th>
+          <th>Comentarios</th>
+          <th>Mozo</th>
+          <th>Fecha</th>
+          <th>Estado</th>
+          <th>Acciones</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for pedido in pedidos %}
+        {% ifequal pedido.punto punto %}
+          <tr id="row-{{ pedido.id }}">
+            {% if pedido.visitante %}
+            <td><strong>Foraneo:</strong> {{ pedido.visitante }}</td>
+            {% else %}
+            <td>{{ pedido.para }}</td>
+            {% endif %}
+            <td>
+              <ul class="list-unstyled">
+                {% for detalle in pedido.pedidodetalle_set.all %}
+                <li>{{ detalle.cantidad }} x {{ detalle.plato }}</li>
+                {% endfor %}
+              </ul>
+            </td>
+            <td>{{ pedido.notas }}</td>
+            <td>{{ pedido.first_name }}</td>
+            <td class="timeago" title="{{ pedido.cuando |date:"c"}}">{{ pedido.cuando |date:"D d M Y"}}</td>
+            <td>
+              {% ifequal pedido.estado 'R' %}
+              <span class="btn btn-sm btn-danger">Recibido</span>
+              {% endifequal %}
+              {% ifequal pedido.estado 'A' %}
+              <span class="btn btn-sm btn-warning">Atendido</span>
+              {% endifequal %}
+              {% ifequal pedido.estado 'I' %}
+              <span class="btn btn-sm btn-info">Impreso</span>
+              {% endifequal %}
+              {% ifequal pedido.estado 'P' %}
+              <span class="btn btn-sm btn-success">Pagado</span>
+              {% endifequal %}
+            </td>
+            </td>
+            <td>
+              {% ifequal pedido.estado 'R' %}
+              <button class="btn btn-sm btn-warning attend" data-id={{ pedido.id }}><i class="icon icon-check"></i></button>
+              <button class="btn btn-sm btn-info print" data-id="{{ pedido.id }}" data-comanda="{{ pedido.tiene_comanda }}" 
+              data-consumo="{{ pedido.tiene_consumo }}" 
+              {% if pedido.visitante%}
+              data-foraneo="true"
+              {% else %}
+              data-foraneo="false"
+              {% endif %}
+               style="display: none;"><i class="icon icon-print"></i></button>
+              {% endifequal %}
+              {% ifequal pedido.estado 'A' %}
+              <button class="btn btn-sm btn-info print" data-id="{{ pedido.id }}" data-comanda="{{ pedido.tiene_comanda }}" 
+              data-consumo="{{ pedido.tiene_consumo }}" 
+              {% if pedido.visitante%}
+              data-foraneo="true"
+              {% else %}
+              data-foraneo="false"
+              {% endif %}
+              ><i class="icon icon-print"></i></button>
+              {% endifequal %}
+              {% ifequal pedido.estado 'I' %}
+              <button class="btn btn-sm btn-info print" data-id="{{ pedido.id }}" data-comanda="{{ pedido.tiene_comanda }}" 
+              data-consumo="{{ pedido.tiene_consumo }}" 
+              {% if pedido.visitante%}
+              data-foraneo="true"
+              {% else %}
+              data-foraneo="false"
+              {% endif %}
+              ><i class="icon icon-print"></i></button>
+              {% endifequal %}
+              {% ifequal pedido.estado 'P' %}
+              <button class="btn btn-sm btn-info print" data-id="{{ pedido.id }}" data-comanda="{{ pedido.tiene_comanda }}" 
+              data-consumo="{{ pedido.tiene_consumo }}" 
+              {% if pedido.visitante%}
+              data-foraneo="true"
+              {% else %}
+              data-foraneo="false"
+              {% endif %}
+              ><i class="icon icon-print"></i></button>
+              {% endifequal %}
+            </td>
+          </tr>
+        {% endifequal %}
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+{% endfor %}
+</div>
+
+<div class="modal fade" id="theModal">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+        <h4 class="modal-title">Impresión</h4>
+      </div>
+      <div class="modal-body">
+        <button class="btn btn-primary comanda" data-what="comanda">Imprimir Comanda</button>
+        <button class="btn btn-primary consumo" data-what="consumo">Imprimir Detalle de Consumo</button>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
+      </div>
+    </div><!-- /.modal-content -->
+  </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
+
+<div class="modal fade" id="printModal">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+        <h4 class="modal-title">Impresión</h4>
+      </div>
+      <div class="modal-body">
+        <iframe src="" style="zoom:0.60" width="99.6%" height="600" frameborder="0"></iframe>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
+      </div>
+    </div><!-- /.modal-content -->
+  </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
+
+{% csrf_token %}
+{% endblock %}
+{% block js %}
+<script src="/media/js/vendor/jquery.timeago.js"></script>
+<script src="/media/js/actions/pedido-lista-cocina.js"></script>
+{% endblock %}

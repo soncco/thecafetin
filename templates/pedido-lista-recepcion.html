@@ -1,0 +1,81 @@
+{% extends 'base.html' %}
+{% block content %}
+<h1>Facturación</h1>
+
+<form class="form-inline" role="form" id="the-form">
+  <div class="form-group">
+    <select name="habitacion" id="habitacion" class="form-control" required="required">
+      <option value="">Escoge una habitación</option>
+      {% for habitacion in habitaciones %}
+      {% if habitacion.nombre != 'Fuera' %}
+      <option value="{{ habitacion.id }}">{{ habitacion.nombre }}</option>
+      {% endif %}
+      {% endfor %}
+    </select>
+  </div>
+  <button class="btn btn-success ver" type="submit" data-loading-text="Un momento...">Ver pedidos</button> o también puedes
+  <button class="btn btn-info ver-externo" type="button" data-loading-text="Un momento...">Ver pedidos externos</button>
+</form>
+<table class="table table-striped pedido-lista" id="pedido-lista" style="display: none">
+  <thead>
+    <tr>
+      <th>Cliente</th>
+      <th>Pedido</th>
+      <th>Mozo</th>
+      <th>Fecha</th>
+      <th>Estado</th>
+      <th colspan="2">Acciones</th>
+    </tr>
+  </thead>
+  <tbody>
+    
+  </tbody>
+  <tfoot>
+    <th colspan="7">
+      <button class="btn btn-block btn-success generate" type="button" style="display: none;">Pagar todos los pedidos</button>
+    </th>
+  </tfoot>
+</table>
+<div class="modal fade" id="theModal">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+        <h4 class="modal-title">Impresión</h4>
+      </div>
+      <div class="modal-body">
+        <button class="btn btn-primary boleta" data-what="boleta">Imprimir Boleta</button>
+        <button class="btn btn-primary factura" data-what="factura">Imprimir Factura</button>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
+      </div>
+    </div><!-- /.modal-content -->
+  </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
+
+<div class="modal fade" id="printModal">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+        <h4 class="modal-title">Impresión</h4>
+      </div>
+      <div class="modal-body">
+        <iframe src="" style="zoom:0.60" width="99.6%" height="600" frameborder="0"></iframe>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
+      </div>
+    </div><!-- /.modal-content -->
+  </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
+
+
+{% csrf_token %}
+{% endblock %}
+{% block js %}
+<script src="/media/js/vendor/jquery.timeago.js"></script>
+<script src="/media/js/vendor/underscore-min.js"></script>
+<script src="/media/js/actions/pedido-lista-recepcion.js"></script>
+{% endblock %}
