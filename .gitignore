@@ -1,4 +1,5 @@
-# Compiled source
+﻿# Compiled source
+__pycache__/
 *.com
 *.class
 *.dll
@@ -7,7 +8,6 @@
 *.so
 *.resources
 *.pyc
-*.pl
 
 # Packages
 *.7z
@@ -32,28 +32,12 @@ Thumbs.db
 *.suo
 
 # special files
+*.komodoproject
 .settings
 .project
 .pydevproject
+.komodotools
+.vscode
 
-# Generated files
-front/public/css/style.css
-
-# Uploaded files
-child/media/fotos/*
-
-# Copied from https://github.com/LearnBoost/socket.io/blob/master/.gitignore
-.DS_Store
-lib-cov
-*.seed
-*.log
-*.csv
-*.dat
-*.out
-*.pid
-.cache
-benchmarks/*.png
-node_modules
-
-# Custom
-public/stylesheets/style.css
+# project
+ninos/local.py

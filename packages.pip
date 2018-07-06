@@ -1,0 +1,4 @@
+mysqlclient
+python-memcached
+Django
+django-debug-toolbar
