@@ -1,4 +1,5 @@
 mysqlclient
 python-memcached
 Django
+django_xhtml2pdf
 django-debug-toolbar

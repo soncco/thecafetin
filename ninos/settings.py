@@ -39,6 +39,9 @@ USE_L10N = False
 TIME_ZONE = 'America/Lima'
 DATETIME_FORMAT = 'd/m/Y H:i'
 
+LOGIN_URL = '/login/'
+LOGOUT_URL = '/logout/'
+
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
@@ -58,6 +61,13 @@ TEMPLATES = [
 STATICFILES_DIRS = (
     os.path.join(BASE_DIR, "static"),
 )
+
+STATICFILES_FINDERS = (
+    'django.contrib.staticfiles.finders.FileSystemFinder',
+    'django.contrib.staticfiles.finders.AppDirectoriesFinder',
+)
+
+STATICFILES_STORAGE = 'django.contrib.staticfiles.storage.CachedStaticFilesStorage'
 
 if DEBUG:
     INTERNAL_IPS = ('127.0.0.1',)
