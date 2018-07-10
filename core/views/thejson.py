@@ -1,10 +1,9 @@
-from django.shortcuts import render_to_response
 from django.http import HttpResponse
 from django.contrib.auth.decorators import login_required, user_passes_test
 from django.db.models import Q
 
-from ..models import Cliente, Punto, Plato, Habitacion, Pedido
-from ..utils import pedido_json
+from core.models import Cliente, Punto, Plato, Habitacion, Pedido
+from core.utils import pedido_json
 
 from datetime import date
 import json
@@ -67,7 +66,7 @@ def pedido_lista_habitacion(request, id):
 @login_required
 def pedido_lista_externos(request):
     local = request.session['local']
-    print local
+    print(local)
     context = []
     pedidos = Pedido.objects.filter(visitante__isnull = False, punto__pertenece_a = local).filter(estado = 'I') | Pedido.objects.filter(visitante__isnull = False, punto__pertenece_a = local).filter(estado = 'A')
 

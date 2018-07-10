@@ -3,11 +3,11 @@
   <head>
     <title>{% block title %}Cafetín{% endblock %}</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=0">
-    <link rel="stylesheet" media="screen" href="/media/bootstrap/css/bootstrap.min.css">
-    <link rel="stylesheet" href="/media/css/jquery.ui.min.css">
-    <link rel="stylesheet" href="/media/css/font-awesome/css/font-awesome.min.css">
-    <link rel="stylesheet" href="/media/css/animate.min.css">
-    <link rel="stylesheet" media="screen" href="/media/css/cafetin.css">
+    <link rel="stylesheet" media="screen" href="/static/bootstrap/css/bootstrap.min.css">
+    <link rel="stylesheet" href="/static/css/jquery.ui.min.css">
+    <link rel="stylesheet" href="/static/css/font-awesome/css/font-awesome.min.css">
+    <link rel="stylesheet" href="/static/css/animate.min.css">
+    <link rel="stylesheet" media="screen" href="/static/css/cafetin.css">
     {% block css %}{% endblock %}
   </head>
   <body>
@@ -24,7 +24,7 @@
         </div>
         <div class="collapse navbar-collapse navbar-ex1-collapse">
           <ul class="nav navbar-nav">
-            {% include 'menu.html' %}
+            
           </ul>
         </div>
       </nav>
@@ -51,10 +51,10 @@
         </p>
       </div>
     </footer>
-    <script src="/media/js/vendor/jquery.min.js"></script>
-    <script src="/media/js/vendor/jquery.ui.min.js"></script>
-    <script src="/media/bootstrap/js/bootstrap.min.js"></script>
-    <script src="/media/js/actions/vars.js"></script>
+    <script src="/static/js/vendor/jquery.min.js"></script>
+    <script src="/static/js/vendor/jquery.ui.min.js"></script>
+    <script src="/static/bootstrap/js/bootstrap.min.js"></script>
+    <script src="/static/js/actions/vars.js"></script>
     <script>
       document.write('<sc'+'ript src="' + cafetin.ip + ':3000/socket.io/socket.io.js"></scri'+'pt>');
     </script>    

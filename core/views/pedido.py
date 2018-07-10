@@ -1,5 +1,4 @@
-from django.shortcuts import render_to_response
-from django.template import RequestContext
+from django.shortcuts import render
 from django.contrib import messages
 from django.contrib.auth import login, logout, authenticate
 from django.contrib.auth.decorators import login_required, user_passes_test
@@ -13,7 +12,7 @@ from ..utils import crear_comanda, crear_comanda_externo, crear_consumo, crear_b
 
 @login_required
 def pedido(request):
-    return render_to_response('pedido.html', context_instance = RequestContext(request))
+    return render(request, 'pedido.html')
 
 @login_required
 def pedido_lista_mozo(request):
@@ -40,11 +39,10 @@ def pedido_lista_mozo(request):
         pedido.tiene_consumo = consumo
 
     context = {'pedidos': pedidos}
-    return render_to_response('pedido-lista-mozo.html', context, context_instance = RequestContext(request))
+    return render(request, 'pedido-lista-mozo.html', context)
 
 @login_required
 def pedido_lista_cocina(request):
-
     today_min = datetime.datetime.combine(datetime.date.today(), datetime.time.min)
     today_max = datetime.datetime.combine(datetime.date.today(), datetime.time.max)
     local = request.session['local']
@@ -68,23 +66,21 @@ def pedido_lista_cocina(request):
     puntos = Punto.objects.filter(pertenece_a = request.session['local'])
 
     context = {'pedidos': pedidos, 'puntos': puntos}
-    return render_to_response('pedido-lista-cocina.html', context, context_instance = RequestContext(request))
+    return render(request, 'pedido-lista-cocina.html', context)
 
 @login_required
 def pedido_lista_recepcion(request):
-    
     local = request.session['local']
     
     habitaciones = Habitacion.objects.filter(pertenece_a = local)
     puntos = Punto.objects.filter(pertenece_a = local)
 
     context = {'puntos': puntos, 'habitaciones': habitaciones}
-    return render_to_response('pedido-lista-recepcion.html', context, context_instance = RequestContext(request))
+    return render(request, 'pedido-lista-recepcion.html', context)
 
 from ..utils import pedido_json
 @login_required
 def pedido_crear(request):
-
     if request.method == "POST":
         post = request.POST.copy()
         para = post.get('para')
@@ -236,7 +232,7 @@ def pedido_imprimir(request):
 
 @login_required
 def pedido_lista_completo_mozo(request):
-    return render_to_response('pedido-lista-completo-mozo.html', context_instance = RequestContext(request))
+    return render(request, 'pedido-lista-completo-mozo.html')
 
 @login_required
 def json_pagar(request, id):

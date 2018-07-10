@@ -1,18 +1,16 @@
-# -*- coding: utf-8 -*-
-
-from django.shortcuts import render_to_response
+from django.shortcuts import render
 from django.template import RequestContext
 from django.contrib import messages
 from django.contrib.auth import login, logout, authenticate
 from django.contrib.auth.decorators import login_required, user_passes_test
 from django.http import HttpResponseRedirect, HttpResponse
-from django.core.urlresolvers import reverse
+from django.urls import reverse
 from django.contrib.auth.models import User
 from django.db.models import Sum
 import json, datetime
 
-from ..models import Cliente, Pedido, Habitacion, Comanda, Consumo, Boleta, Factura, Plato, PedidoDetalle, Punto, Local
-from ..utils import pedido_json, strtotime, documento_json
+from core.models import Cliente, Pedido, Habitacion, Comanda, Consumo, Boleta, Factura, Plato, PedidoDetalle, Punto, Local
+from core.utils import pedido_json, strtotime, documento_json
 
 @login_required
 def reporte_pedido_fecha(request):
@@ -28,7 +26,7 @@ def reporte_pedido_fecha(request):
 
         return HttpResponse(json.dumps(pedidos), content_type="application/json")
 
-    return render_to_response('reporte-pedido-fecha.html', context_instance = RequestContext(request))
+    return render(request, 'reporte-pedido-fecha.html')
 
 @login_required
 def reporte_pedido_habitacion(request):
@@ -55,11 +53,10 @@ def reporte_pedido_habitacion(request):
 
     habitaciones = Habitacion.objects.filter(pertenece_a = request.session['local'])
     context = {'habitaciones': habitaciones}
-    return render_to_response('reporte-pedido-habitacion.html', context, context_instance = RequestContext(request))
+    return render(request, 'reporte-pedido-habitacion.html', context)
 
 @login_required
 def reporte_pedido_mozo(request):
-
     if request.method == 'POST':
         inicio = request.POST.get('inicio')
         fin = request.POST.get('fin')
@@ -81,7 +78,7 @@ def reporte_pedido_mozo(request):
 
     mozos = User.objects.filter(groups__name = 'Mozos')
     context = {'mozos': mozos}
-    return render_to_response('reporte-pedido-mozo.html', context, context_instance = RequestContext(request))
+    return render(request, 'reporte-pedido-mozo.html', context)
 
 @login_required
 def reporte_documento_comanda(request):
@@ -95,7 +92,7 @@ def reporte_documento_comanda(request):
             context = {}                    
         
         return HttpResponse(json.dumps(context), content_type="application/json")
-    return render_to_response('reporte-documento-comanda.html', context_instance = RequestContext(request))
+    return render(request, 'reporte-documento-comanda.html')
 
 @login_required
 def reporte_documento_consumo(request):
@@ -109,7 +106,7 @@ def reporte_documento_consumo(request):
             context = {}                    
         
         return HttpResponse(json.dumps(context), content_type="application/json")
-    return render_to_response('reporte-documento-consumo.html', context_instance = RequestContext(request))
+    return render(request, 'reporte-documento-consumo.html')
 
 @login_required
 def reporte_documento_boleta(request):
@@ -123,7 +120,7 @@ def reporte_documento_boleta(request):
             context = {}                    
         
         return HttpResponse(json.dumps(context), content_type="application/json")
-    return render_to_response('reporte-documento-boleta.html', context_instance = RequestContext(request))
+    return render(request, 'reporte-documento-boleta.html')
 
 @login_required
 def reporte_documento_factura(request):
@@ -137,11 +134,10 @@ def reporte_documento_factura(request):
             context = {}                    
         
         return HttpResponse(json.dumps(context), content_type="application/json")
-    return render_to_response('reporte-documento-factura.html', context_instance = RequestContext(request))
+    return render(request, 'reporte-documento-factura.html')
 
 @login_required
 def mas_vendido_mozo(request):
-
     if request.method == 'POST':
         inicio = request.POST.get('inicio')
         fin = request.POST.get('fin')
@@ -177,11 +173,10 @@ def mas_vendido_mozo(request):
 
     mozos = User.objects.filter(groups__name = 'Mozos')
     context = {'mozos': mozos}
-    return render_to_response('mas-vendido-mozo.html', context, context_instance = RequestContext(request))
+    return render(request, 'mas-vendido-mozo.html', context)
 
 @login_required
 def ranking_platos(request):
-
     if request.method == 'POST':
         inicio = request.POST.get('inicio')
         fin = request.POST.get('fin')
@@ -205,4 +200,4 @@ def ranking_platos(request):
         #data.sort()
         return HttpResponse(json.dumps(data), content_type="application/json")
 
-    return render_to_response('ranking-platos.html', context_instance = RequestContext(request))
+    return render(request, 'ranking-platos.html')

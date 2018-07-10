@@ -18,6 +18,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     #3rd
+    'django_xhtml2pdf',
     #me
     'core',
 ]

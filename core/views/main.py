@@ -1,5 +1,4 @@
-from django.shortcuts import render_to_response
-from django.template import RequestContext
+from django.shortcuts import render
 from django.contrib import messages
 from django.contrib.auth import login, logout, authenticate
 from django.contrib.auth.decorators import login_required, user_passes_test
@@ -15,7 +14,7 @@ import json, datetime
 
 @login_required()
 def index(request):
-    return render_to_response('index.html', context_instance = RequestContext(request))
+    return render(request, 'index.html')
 
 @login_required()
 def blog(request):
@@ -42,7 +41,7 @@ def blog(request):
         )
 
     context = {'posts': posts, 'rango': rango}
-    return render_to_response('blog.html', context, context_instance = RequestContext(request))
+    return render(request, 'blog.html', context)
 
 @login_required()
 def chat(request):
@@ -62,14 +61,14 @@ def chat(request):
 
     chat_messages = Chat.objects.all().order_by('-cuando')[0:50]
     context = {'chat_messages': reversed(chat_messages)}
-    return render_to_response('chat.html', context, context_instance = RequestContext(request))
+    return render(request, 'chat.html', context)
 
 @login_required()
 def clientes(request):
     clientes = Cliente.objects.filter(hospedado_en__pertenece_a = request.session['local'], activo = True)
     clientes = clientes.filter(~Q(nombres = 'Foraneo')).order_by('hospedado_en')
     context = {'clientes': clientes}
-    return render_to_response('clientes.html', context, context_instance = RequestContext(request))
+    return render(request, 'clientes.html', context)
 
 @login_required()
 def cliente_agregar(request):
@@ -106,7 +105,7 @@ def cliente_agregar(request):
 
     habitaciones = Habitacion.objects.filter(pertenece_a = request.session['local'])
     context = {'habitaciones': habitaciones}
-    return render_to_response('cliente-agregar.html', context, context_instance = RequestContext(request))    
+    return render(request, 'cliente-agregar.html', context)
 
 @login_required()
 def checkout(request):
@@ -131,10 +130,10 @@ def carta(request):
             plato.theprecio = plato.precioplato_set.filter(anio = current_year())[0].precio
 
     context = {'platos': platos}
-    return render_to_response('carta.html', context, context_instance = RequestContext(request))
+    return render(request, 'carta.html', context)
 
 def the_login(request):
-    if(request.user.is_authenticated()):
+    if request.user.is_authenticated:
         return HttpResponseRedirect(reverse('index'))
     else:
         if request.method == 'POST':
@@ -157,7 +156,7 @@ def the_login(request):
         usuarios = User.objects.filter(is_active = True)
         context = {'locales': locales, 'usuarios': usuarios}
     
-    return render_to_response('login.html', context, context_instance = RequestContext(request))
+    return render(request, 'login.html', context)
 
 def the_logout(request):
     messages.success(request, 'Hasta pronto')

@@ -1,4 +1,3 @@
-from django.template import RequestContext
 from django.contrib.auth.decorators import login_required, user_passes_test
 from django.http import HttpResponseRedirect, HttpResponse, Http404
 from django_xhtml2pdf.utils import generate_pdf
@@ -6,7 +5,7 @@ from django.views.decorators.csrf import csrf_exempt
 
 import json
 
-from ..models import Pedido, Consumo, Comanda, Boleta, Factura
+from core.models import Pedido, Consumo, Comanda, Boleta, Factura
 
 @login_required
 @csrf_exempt
